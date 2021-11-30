@@ -1,0 +1,123 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+--- Load in libraries
+
+```{r}
+library(tidyverse)
+library(CodeClanData)
+```
+
+--- Question 1
+
+Get dimensions of drinks_content
+
+```{r}
+dim(drinks_content)
+```
+
+Get the structure of drinks_content
+
+```{r}
+str(drinks_content)
+```
+
+--- Question 2
+
+Select columns 'Beverage_category', 'Beverage', 'Beverage_prep' and 'Calories' from the data
+
+```{r}
+drinks_cal <- select(drinks_content, Beverage_category, Beverage, Beverage_prep, Calories)
+```
+
+Check the amount of NAs in column 'Calories'
+
+```{r}
+which(is.na(drinks_cal$Calories))
+```
+
+There are no NAs in column 'Calories'
+
+--- Question 3
+
+Create a new variable calorie_diff 
+
+```{r}
+mutate(drinks_cal, calorie_diff = Calories - 135)
+```
+
+--- Question 4
+
+Group categories in column 'Beverage_category'
+
+```{r}
+grouped_beverages <- group_by(drinks_cal, Beverage_category)
+```
+
+Summarise the mean no. of calories in each beverage category
+
+```{r}
+mean_categories <- summarise(grouped_beverages, mean_calories = mean(Calories))
+```
+
+Arrange mean calories in descending order
+
+```{r}
+sorted_mean_categories <- arrange(mean_categories, desc(mean_calories))
+```
+
+Find 3 categories of drinks with most calories
+
+```{r}
+head(sorted_mean_categories, 3)
+```
+
+Find 3 categories of drinks with least amount of calories
+
+```{r}
+tail(sorted_mean_categories, 3)
+```
+
+The 3 categories of beverages with the most calories are Smoothies,	Frappuccino® Blended Coffee and Signature Espresso Drinks.
+The 3 categories of beverages with the least amount of calories are Classic Espresso Drinks, Shaken Iced Beverages and Coffee.
+
+--- Question 5
+
+Group categories in column 'Beverage_prep'
+
+```{r}
+grouped_prep <- group_by(drinks_cal, Beverage_prep)
+```
+
+Calculate mean no. of calories for each prep type
+
+```{r}
+prep_cal_summary <- summarise(grouped_prep, mean_cal_prep = mean(Calories))
+prep_cal_summary
+```
+
+--- Question 6
+
+Calculate average calories of all beverages
+
+```{r}
+mean_all <- mean(drinks_content$Calories)
+```
+
+Find out which types of beverage prep contain more calories than the average
+
+```{r}
+filter(prep_cal_summary, mean_cal_prep > mean_all)
+```
+
+--- Question 7
+
+```{r}
+drinks_cal %>% 
+  filter(Beverage_category == "Coffee") %>%  # only includes rows where Coffee is the beverage category
+  arrange(Calories) %>% # orders the 'calories' values in ascending order, so the lowest calorie value is at the top
+  head(1) # returns the top row
+```
+
+The Coffee type with the least amount of calories is short.
