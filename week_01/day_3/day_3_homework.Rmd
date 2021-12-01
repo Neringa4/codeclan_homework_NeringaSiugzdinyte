@@ -3,3 +3,30 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+--- Load in packages and data
+```{r}
+library(tidyverse)
+
+movies <- read_csv("data/movies.csv")
+```
+
+--- Question 1
+
+The names of the columns seem to be appropriate so I would leave those as they are.
+
+There are NAs and 0 values in certain columns. I could find out how many NAs there are and in which columns.
+Then I could decide the appropriate action to take with regards to the NAs, e.g. ignore or replace.
+
+Depending on which variables I need, I can also decide what to do with values that are 0.
+
+I could change the variables in budget and revenue to make them more readable and easier to compare.
+
+Then I could also sort the data by certain variables, e.g. vote_average, revenue, popularity etc.
+
+I could also group the original_language column to explore data about movies depending on their original language.
+
+I could find out which movies are the most and least popular, which ones have the highest rating or budget etc.
+
+
+--- Question 2
+
