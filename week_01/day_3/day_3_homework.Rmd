@@ -108,3 +108,17 @@ movies_imputed
 ```
 
 --- Extension Question 1
+
+```{r}
+movie_budgets <- movies_imputed %>% 
+  mutate(budget_type = case_when(
+    budget < 12e6 ~ "Small budget", 
+    budget >= 12e6 & budget < 40e6 ~ "Medium budget",
+    budget >= 40e6 ~ "Big budget"
+  ))
+
+movie_budgets
+```
+
+--- Extension Question 2
+
