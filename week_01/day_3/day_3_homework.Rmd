@@ -48,3 +48,13 @@ so to make it easier to read and understand the data, I want all of them to be i
 
 --- Question 3
 
+```{r}
+movies_selected %>%
+  summarise(na_count_title = sum(is.na(title)),
+            na_count_runtime = sum(is.na(runtime)),
+            na_count_budget = sum(is.na(budget)))
+```
+
+There are 2 missing values in runtime.
+
+--- Question 4
