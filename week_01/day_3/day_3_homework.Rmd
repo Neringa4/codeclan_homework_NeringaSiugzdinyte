@@ -58,3 +58,15 @@ movies_selected %>%
 There are 2 missing values in runtime.
 
 --- Question 4
+
+```{r}
+movies_runtime <- movies_selected %>%
+  mutate(runtime = na_if(runtime, 0)) 
+
+movies_runtime %>% 
+summarise(na_count_runtime = sum(is.na(runtime)))
+```
+
+There are now 37 missing values in runtime.
+
+--- Question 5
