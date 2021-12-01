@@ -122,3 +122,17 @@ movie_budgets
 
 --- Extension Question 2
 
+Number of NAs in character columns
+
+```{r}
+movies %>% 
+  summarise(across(where(is.character), sum(is.na)))
+```
+
+Number of NAs in numerical columns
+
+```{r}
+movies %>% 
+  summarise(across(where(is.numeric), sum(is.na)))
+```
+
