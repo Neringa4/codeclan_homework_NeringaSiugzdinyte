@@ -70,3 +70,15 @@ summarise(na_count_runtime = sum(is.na(runtime)))
 There are now 37 missing values in runtime.
 
 --- Question 5
+
+```{r}
+movies_imputed <- movies_runtime %>%
+  mutate(runtime = coalesce(runtime, median(runtime, na.rm = TRUE)))
+
+movies_imputed %>%
+  summarise(na_count_runtime = sum(is.na(runtime)))
+```
+There are now 0 missing values in runtime.
+
+--- Question 6
+
