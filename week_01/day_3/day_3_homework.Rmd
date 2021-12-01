@@ -12,6 +12,14 @@ movies <- read_csv("data/movies.csv")
 
 --- Question 1
 
+```{r}
+dim(movies)
+```
+```{r}
+str(movies)
+```
+
+
 The names of the columns seem to be appropriate so I would leave those as they are.
 
 There are NAs and 0 values in certain columns. I could find out how many NAs there are and in which columns.
@@ -29,4 +37,14 @@ I could find out which movies are the most and least popular, which ones have th
 
 
 --- Question 2
+
+```{r}
+movies_selected <- movies %>% 
+  select(title, runtime, budget) 
+```
+
+I selected title instead of original_title because there are different languages in original_title,
+so to make it easier to read and understand the data, I want all of them to be in English.
+
+--- Question 3
 

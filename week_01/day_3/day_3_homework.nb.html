@@ -226,6 +226,18 @@ movies &lt;- read_csv(&quot;data/movies.csv&quot;)</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>— Question 1</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGltKG1vdmllcylcbmBgYCJ9 -->
+<pre class="r"><code>dim(movies)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKG1vdmllcylcbmBgYCJ9 -->
+<pre class="r"><code>str(movies)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <p>The names of the columns seem to be appropriate so I would leave those as they are.</p>
 <p>There are NAs and 0 values in certain columns. I could find out how many NAs there are and in which columns. Then I could decide the appropriate action to take with regards to the NAs, e.g. ignore or replace.</p>
 <p>Depending on which variables I need, I can also decide what to do with values that are 0.</p>
@@ -235,8 +247,18 @@ movies &lt;- read_csv(&quot;data/movies.csv&quot;)</code></pre>
 <p>I could find out which movies are the most and least popular, which ones have the highest rating or budget etc.</p>
 <p>— Question 2</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX3NlbGVjdGVkIDwtIG1vdmllcyAlPiUgXG4gIHNlbGVjdCh0aXRsZSwgcnVudGltZSwgYnVkZ2V0KVxuYGBgIn0= -->
+<pre class="r"><code>movies_selected &lt;- movies %&gt;% 
+  select(title, runtime, budget)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I selected title instead of original_title because there are different languages in original_title, so to make it easier to read and understand the data, I want all of them to be in English.</p>
+<p>— Question 3</p>
+<!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQotLS0gTG9hZCBpbiBwYWNrYWdlcyBhbmQgZGF0YQ0KYGBge3J9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCg0KbW92aWVzIDwtIHJlYWRfY3N2KCJkYXRhL21vdmllcy5jc3YiKQ0KYGBgDQoNCi0tLSBRdWVzdGlvbiAxDQoNClRoZSBuYW1lcyBvZiB0aGUgY29sdW1ucyBzZWVtIHRvIGJlIGFwcHJvcHJpYXRlIHNvIEkgd291bGQgbGVhdmUgdGhvc2UgYXMgdGhleSBhcmUuDQoNClRoZXJlIGFyZSBOQXMgYW5kIDAgdmFsdWVzIGluIGNlcnRhaW4gY29sdW1ucy4gSSBjb3VsZCBmaW5kIG91dCBob3cgbWFueSBOQXMgdGhlcmUgYXJlIGFuZCBpbiB3aGljaCBjb2x1bW5zLg0KVGhlbiBJIGNvdWxkIGRlY2lkZSB0aGUgYXBwcm9wcmlhdGUgYWN0aW9uIHRvIHRha2Ugd2l0aCByZWdhcmRzIHRvIHRoZSBOQXMsIGUuZy4gaWdub3JlIG9yIHJlcGxhY2UuDQoNCkRlcGVuZGluZyBvbiB3aGljaCB2YXJpYWJsZXMgSSBuZWVkLCBJIGNhbiBhbHNvIGRlY2lkZSB3aGF0IHRvIGRvIHdpdGggdmFsdWVzIHRoYXQgYXJlIDAuDQoNCkkgY291bGQgY2hhbmdlIHRoZSB2YXJpYWJsZXMgaW4gYnVkZ2V0IGFuZCByZXZlbnVlIHRvIG1ha2UgdGhlbSBtb3JlIHJlYWRhYmxlIGFuZCBlYXNpZXIgdG8gY29tcGFyZS4NCg0KVGhlbiBJIGNvdWxkIGFsc28gc29ydCB0aGUgZGF0YSBieSBjZXJ0YWluIHZhcmlhYmxlcywgZS5nLiB2b3RlX2F2ZXJhZ2UsIHJldmVudWUsIHBvcHVsYXJpdHkgZXRjLg0KDQpJIGNvdWxkIGFsc28gZ3JvdXAgdGhlIG9yaWdpbmFsX2xhbmd1YWdlIGNvbHVtbiB0byBleHBsb3JlIGRhdGEgYWJvdXQgbW92aWVzIGRlcGVuZGluZyBvbiB0aGVpciBvcmlnaW5hbCBsYW5ndWFnZS4NCg0KSSBjb3VsZCBmaW5kIG91dCB3aGljaCBtb3ZpZXMgYXJlIHRoZSBtb3N0IGFuZCBsZWFzdCBwb3B1bGFyLCB3aGljaCBvbmVzIGhhdmUgdGhlIGhpZ2hlc3QgcmF0aW5nIG9yIGJ1ZGdldCBldGMuDQoNCg0KLS0tIFF1ZXN0aW9uIDINCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQotLS0gTG9hZCBpbiBwYWNrYWdlcyBhbmQgZGF0YQ0KYGBge3J9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCg0KbW92aWVzIDwtIHJlYWRfY3N2KCJkYXRhL21vdmllcy5jc3YiKQ0KYGBgDQoNCi0tLSBRdWVzdGlvbiAxDQoNCmBgYHtyfQ0KZGltKG1vdmllcykNCmBgYA0KYGBge3J9DQpzdHIobW92aWVzKQ0KYGBgDQoNCg0KVGhlIG5hbWVzIG9mIHRoZSBjb2x1bW5zIHNlZW0gdG8gYmUgYXBwcm9wcmlhdGUgc28gSSB3b3VsZCBsZWF2ZSB0aG9zZSBhcyB0aGV5IGFyZS4NCg0KVGhlcmUgYXJlIE5BcyBhbmQgMCB2YWx1ZXMgaW4gY2VydGFpbiBjb2x1bW5zLiBJIGNvdWxkIGZpbmQgb3V0IGhvdyBtYW55IE5BcyB0aGVyZSBhcmUgYW5kIGluIHdoaWNoIGNvbHVtbnMuDQpUaGVuIEkgY291bGQgZGVjaWRlIHRoZSBhcHByb3ByaWF0ZSBhY3Rpb24gdG8gdGFrZSB3aXRoIHJlZ2FyZHMgdG8gdGhlIE5BcywgZS5nLiBpZ25vcmUgb3IgcmVwbGFjZS4NCg0KRGVwZW5kaW5nIG9uIHdoaWNoIHZhcmlhYmxlcyBJIG5lZWQsIEkgY2FuIGFsc28gZGVjaWRlIHdoYXQgdG8gZG8gd2l0aCB2YWx1ZXMgdGhhdCBhcmUgMC4NCg0KSSBjb3VsZCBjaGFuZ2UgdGhlIHZhcmlhYmxlcyBpbiBidWRnZXQgYW5kIHJldmVudWUgdG8gbWFrZSB0aGVtIG1vcmUgcmVhZGFibGUgYW5kIGVhc2llciB0byBjb21wYXJlLg0KDQpUaGVuIEkgY291bGQgYWxzbyBzb3J0IHRoZSBkYXRhIGJ5IGNlcnRhaW4gdmFyaWFibGVzLCBlLmcuIHZvdGVfYXZlcmFnZSwgcmV2ZW51ZSwgcG9wdWxhcml0eSBldGMuDQoNCkkgY291bGQgYWxzbyBncm91cCB0aGUgb3JpZ2luYWxfbGFuZ3VhZ2UgY29sdW1uIHRvIGV4cGxvcmUgZGF0YSBhYm91dCBtb3ZpZXMgZGVwZW5kaW5nIG9uIHRoZWlyIG9yaWdpbmFsIGxhbmd1YWdlLg0KDQpJIGNvdWxkIGZpbmQgb3V0IHdoaWNoIG1vdmllcyBhcmUgdGhlIG1vc3QgYW5kIGxlYXN0IHBvcHVsYXIsIHdoaWNoIG9uZXMgaGF2ZSB0aGUgaGlnaGVzdCByYXRpbmcgb3IgYnVkZ2V0IGV0Yy4NCg0KDQotLS0gUXVlc3Rpb24gMg0KDQpgYGB7cn0NCm1vdmllc19zZWxlY3RlZCA8LSBtb3ZpZXMgJT4lIA0KICBzZWxlY3QodGl0bGUsIHJ1bnRpbWUsIGJ1ZGdldCkgDQpgYGANCg0KSSBzZWxlY3RlZCB0aXRsZSBpbnN0ZWFkIG9mIG9yaWdpbmFsX3RpdGxlIGJlY2F1c2UgdGhlcmUgYXJlIGRpZmZlcmVudCBsYW5ndWFnZXMgaW4gb3JpZ2luYWxfdGl0bGUsDQpzbyB0byBtYWtlIGl0IGVhc2llciB0byByZWFkIGFuZCB1bmRlcnN0YW5kIHRoZSBkYXRhLCBJIHdhbnQgYWxsIG9mIHRoZW0gdG8gYmUgaW4gRW5nbGlzaC4NCg0KLS0tIFF1ZXN0aW9uIDMNCg0K</div>
 
 
 
