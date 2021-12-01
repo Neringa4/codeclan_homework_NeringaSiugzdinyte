@@ -126,13 +126,12 @@ Number of NAs in character columns
 
 ```{r}
 movies %>% 
-  summarise(across(where(is.character), sum(is.na)))
+  summarise(across(where(is.character), ~sum(is.na(.))))
 ```
 
 Number of NAs in numerical columns
 
 ```{r}
 movies %>% 
-  summarise(across(where(is.numeric), sum(is.na)))
+  summarise(across(where(is.numeric), ~sum(is.na(.))))
 ```
-
