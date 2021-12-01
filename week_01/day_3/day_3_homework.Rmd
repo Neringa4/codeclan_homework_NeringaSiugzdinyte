@@ -64,7 +64,7 @@ movies_runtime <- movies_selected %>%
   mutate(runtime = na_if(runtime, 0)) 
 
 movies_runtime %>% 
-summarise(na_count_runtime = sum(is.na(runtime)))
+  summarise(na_count_runtime = sum(is.na(runtime)))
 ```
 
 There are now 37 missing values in runtime.
@@ -82,3 +82,18 @@ There are now 0 missing values in runtime.
 
 --- Question 6
 
+Movies with shortest runtime:
+
+```{r}
+movies_imputed %>%
+  slice_min(runtime, n = 10)
+```
+
+Movies with longest runtime:
+
+```{r}
+movies_imputed %>% 
+  slice_max(runtime, n = 10)
+```
+
+--- Question 7
