@@ -97,3 +97,14 @@ movies_imputed %>%
 ```
 
 --- Question 7
+
+```{r}
+movies_imputed <- movies_imputed %>% 
+  mutate(budget = if_else(budget < 100, # if budget is below 100
+                          median(budget), # it will be replaced by the median of budget
+                          budget)) # else, the value stays the same
+
+movies_imputed
+```
+
+--- Extension Question 1
