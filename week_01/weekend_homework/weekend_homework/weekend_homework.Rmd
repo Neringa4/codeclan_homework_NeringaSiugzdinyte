@@ -3,3 +3,118 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+```{r}
+library(tidyverse)
+
+books <- read_csv("data/books.csv")
+```
+
+```{r}
+view(books)
+```
+
+```{r}
+glimpse(books)
+```
+
+```{r}
+names(books)
+```
+
+
+I was not interested in row or book IDs or isbn numbers.
+
+```{r}
+selected_books <- books %>% 
+  select(title, authors, average_rating, language_code, num_pages, 
+         ratings_count, text_reviews_count, publication_date, publisher)
+
+selected_books
+```
+
+
+Checked for NAs in every column - there are none. 
+
+```{r}
+selected_books %>% 
+  summarise(across(.cols = everything(), .fns = ~sum(is.na(.x))))
+```
+
+
+Checked how many books belong to each language code.
+
+```{r}
+selected_books %>% 
+  group_by(language_code) %>% 
+  summarise(language_count = n()) %>% 
+  ungroup
+```
+
+
+I decided to only analyse books that were published in English.
+
+```{r}
+eng_books <- selected_books %>% 
+  filter(language_code %in% c("eng", "en-US", "en-GB", "en-CA", "enm")) %>% 
+  select(!language_code)
+
+eng_books
+```
+
+
+I removed audiobooks from the data, because they usually contain 0 or a very 
+small number of pages that do not match up with the physical version of the book.
+
+```{r}
+eng_books <- eng_books %>% 
+  filter(!grepl("Audio", publisher)) %>% 
+  filter(!grepl("Audio", title))
+
+eng_books
+```
+
+
+I removed boxed sets.
+
+```{r}
+eng_books <- eng_books %>% 
+  filter(!grepl("Boxed Set", title))
+
+eng_books
+```
+
+
+I extracted the publication year from the publication date.
+
+```{r}
+books_year <- eng_books %>% 
+  mutate(publication_year = format(as.Date(publication_date, 
+                                           format = "%m/%d/%Y"), "%Y")) %>% 
+  select(!publication_date)
+  
+books_year
+```
+
+
+I checked for NAs in the publication_date.
+
+```{r}
+books_year %>% 
+  summarise(count = sum(is.na(publication_year)))
+```
+
+
+I added the correct publication year for the missing value. 
+
+```{r}
+books_year %>% 
+  filter(is.na(publication_year))
+
+books %>% 
+  filter(grepl("In Pursuit of the Proper Sinner", title))
+
+books_year <- books_year %>% 
+  mutate(publication_year = coalesce(publication_year, "2000"))
+```
+
+

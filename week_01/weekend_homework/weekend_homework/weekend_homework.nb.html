@@ -216,8 +216,142 @@ pre code {
 
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5cbmJvb2tzIDwtIHJlYWRfY3N2KFwiZGF0YS9ib29rcy5jc3ZcIilcbmBgYCJ9 -->
+<pre class="r"><code>library(tidyverse)
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQo=</div>
+books &lt;- read_csv(&quot;data/books.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudmlldyhib29rcylcbmBgYCJ9 -->
+<pre class="r"><code>view(books)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2xpbXBzZShib29rcylcbmBgYCJ9 -->
+<pre class="r"><code>glimpse(books)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoYm9va3MpXG5gYGAifQ== -->
+<pre class="r"><code>names(books)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I was not interested in row or book IDs or isbn numbers.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VsZWN0ZWRfYm9va3MgPC0gYm9va3MgJT4lIFxuICBzZWxlY3QodGl0bGUsIGF1dGhvcnMsIGF2ZXJhZ2VfcmF0aW5nLCBsYW5ndWFnZV9jb2RlLCBudW1fcGFnZXMsIFxuICAgICAgICAgcmF0aW5nc19jb3VudCwgdGV4dF9yZXZpZXdzX2NvdW50LCBwdWJsaWNhdGlvbl9kYXRlLCBwdWJsaXNoZXIpXG5cbnNlbGVjdGVkX2Jvb2tzXG5gYGAifQ== -->
+<pre class="r"><code>selected_books &lt;- books %&gt;% 
+  select(title, authors, average_rating, language_code, num_pages, 
+         ratings_count, text_reviews_count, publication_date, publisher)
+
+selected_books</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Checked for NAs in every column - there are none.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VsZWN0ZWRfYm9va3MgJT4lIFxuICBzdW1tYXJpc2UoYWNyb3NzKC5jb2xzID0gZXZlcnl0aGluZygpLCAuZm5zID0gfnN1bShpcy5uYSgueCkpKSlcbmBgYCJ9 -->
+<pre class="r"><code>selected_books %&gt;% 
+  summarise(across(.cols = everything(), .fns = ~sum(is.na(.x))))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Checked how many books belong to each language code.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VsZWN0ZWRfYm9va3MgJT4lIFxuICBncm91cF9ieShsYW5ndWFnZV9jb2RlKSAlPiUgXG4gIHN1bW1hcmlzZShsYW5ndWFnZV9jb3VudCA9IG4oKSkgJT4lIFxuICB1bmdyb3VwXG5gYGAifQ== -->
+<pre class="r"><code>selected_books %&gt;% 
+  group_by(language_code) %&gt;% 
+  summarise(language_count = n()) %&gt;% 
+  ungroup</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I decided to only analyse books that were published in English.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZW5nX2Jvb2tzIDwtIHNlbGVjdGVkX2Jvb2tzICU+JSBcbiAgZmlsdGVyKGxhbmd1YWdlX2NvZGUgJWluJSBjKFwiZW5nXCIsIFwiZW4tVVNcIiwgXCJlbi1HQlwiLCBcImVuLUNBXCIsIFwiZW5tXCIpKSAlPiUgXG4gIHNlbGVjdCghbGFuZ3VhZ2VfY29kZSlcblxuZW5nX2Jvb2tzXG5gYGAifQ== -->
+<pre class="r"><code>eng_books &lt;- selected_books %&gt;% 
+  filter(language_code %in% c(&quot;eng&quot;, &quot;en-US&quot;, &quot;en-GB&quot;, &quot;en-CA&quot;, &quot;enm&quot;)) %&gt;% 
+  select(!language_code)
+
+eng_books</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I removed audiobooks from the data, because they usually contain 0 or a very small number of pages that do not match up with the physical version of the book.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZW5nX2Jvb2tzIDwtIGVuZ19ib29rcyAlPiUgXG4gIGZpbHRlcighZ3JlcGwoXCJBdWRpb1wiLCBwdWJsaXNoZXIpKSAlPiUgXG4gIGZpbHRlcighZ3JlcGwoXCJBdWRpb1wiLCB0aXRsZSkpXG5cbmVuZ19ib29rc1xuYGBgIn0= -->
+<pre class="r"><code>eng_books &lt;- eng_books %&gt;% 
+  filter(!grepl(&quot;Audio&quot;, publisher)) %&gt;% 
+  filter(!grepl(&quot;Audio&quot;, title))
+
+eng_books</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I removed boxed sets.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZW5nX2Jvb2tzIDwtIGVuZ19ib29rcyAlPiUgXG4gIGZpbHRlcighZ3JlcGwoXCJCb3hlZCBTZXRcIiwgdGl0bGUpKVxuXG5lbmdfYm9va3NcbmBgYCJ9 -->
+<pre class="r"><code>eng_books &lt;- eng_books %&gt;% 
+  filter(!grepl(&quot;Boxed Set&quot;, title))
+
+eng_books</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I extracted the publication year from the publication date.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3NfeWVhciA8LSBlbmdfYm9va3MgJT4lIFxuICBtdXRhdGUocHVibGljYXRpb25feWVhciA9IGZvcm1hdChhcy5EYXRlKHB1YmxpY2F0aW9uX2RhdGUsIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZvcm1hdCA9IFwiJW0vJWQvJVlcIiksIFwiJVlcIikpICU+JSBcbiAgc2VsZWN0KCFwdWJsaWNhdGlvbl9kYXRlKVxuICBcbmJvb2tzX3llYXJcbmBgYCJ9 -->
+<pre class="r"><code>books_year &lt;- eng_books %&gt;% 
+  mutate(publication_year = format(as.Date(publication_date, 
+                                           format = &quot;%m/%d/%Y&quot;), &quot;%Y&quot;)) %&gt;% 
+  select(!publication_date)
+  
+books_year</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I checked for NAs in the publication_date.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3NfeWVhciAlPiUgXG4gIHN1bW1hcmlzZShjb3VudCA9IHN1bShpcy5uYShwdWJsaWNhdGlvbl95ZWFyKSkpXG5gYGAifQ== -->
+<pre class="r"><code>books_year %&gt;% 
+  summarise(count = sum(is.na(publication_year)))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I added the correct publication year for the missing value.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3NfeWVhciAlPiUgXG4gIGZpbHRlcihpcy5uYShwdWJsaWNhdGlvbl95ZWFyKSlcblxuYm9va3MgJT4lIFxuICBmaWx0ZXIoZ3JlcGwoXCJJbiBQdXJzdWl0IG9mIHRoZSBQcm9wZXIgU2lubmVyXCIsIHRpdGxlKSlcblxuYm9va3NfeWVhciA8LSBib29rc195ZWFyICU+JSBcbiAgbXV0YXRlKHB1YmxpY2F0aW9uX3llYXIgPSBjb2FsZXNjZShwdWJsaWNhdGlvbl95ZWFyLCBcIjIwMDBcIikpXG5gYGAifQ== -->
+<pre class="r"><code>books_year %&gt;% 
+  filter(is.na(publication_year))
+
+books %&gt;% 
+  filter(grepl(&quot;In Pursuit of the Proper Sinner&quot;, title))
+
+books_year &lt;- books_year %&gt;% 
+  mutate(publication_year = coalesce(publication_year, &quot;2000&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KDQpib29rcyA8LSByZWFkX2NzdigiZGF0YS9ib29rcy5jc3YiKQ0KYGBgDQoNCmBgYHtyfQ0Kdmlldyhib29rcykNCmBgYA0KDQpgYGB7cn0NCmdsaW1wc2UoYm9va3MpDQpgYGANCg0KYGBge3J9DQpuYW1lcyhib29rcykNCmBgYA0KDQoNCkkgd2FzIG5vdCBpbnRlcmVzdGVkIGluIHJvdyBvciBib29rIElEcyBvciBpc2JuIG51bWJlcnMuDQoNCmBgYHtyfQ0Kc2VsZWN0ZWRfYm9va3MgPC0gYm9va3MgJT4lIA0KICBzZWxlY3QodGl0bGUsIGF1dGhvcnMsIGF2ZXJhZ2VfcmF0aW5nLCBsYW5ndWFnZV9jb2RlLCBudW1fcGFnZXMsIA0KICAgICAgICAgcmF0aW5nc19jb3VudCwgdGV4dF9yZXZpZXdzX2NvdW50LCBwdWJsaWNhdGlvbl9kYXRlLCBwdWJsaXNoZXIpDQoNCnNlbGVjdGVkX2Jvb2tzDQpgYGANCg0KDQpDaGVja2VkIGZvciBOQXMgaW4gZXZlcnkgY29sdW1uIC0gdGhlcmUgYXJlIG5vbmUuIA0KDQpgYGB7cn0NCnNlbGVjdGVkX2Jvb2tzICU+JSANCiAgc3VtbWFyaXNlKGFjcm9zcyguY29scyA9IGV2ZXJ5dGhpbmcoKSwgLmZucyA9IH5zdW0oaXMubmEoLngpKSkpDQpgYGANCg0KDQpDaGVja2VkIGhvdyBtYW55IGJvb2tzIGJlbG9uZyB0byBlYWNoIGxhbmd1YWdlIGNvZGUuDQoNCmBgYHtyfQ0Kc2VsZWN0ZWRfYm9va3MgJT4lIA0KICBncm91cF9ieShsYW5ndWFnZV9jb2RlKSAlPiUgDQogIHN1bW1hcmlzZShsYW5ndWFnZV9jb3VudCA9IG4oKSkgJT4lIA0KICB1bmdyb3VwDQpgYGANCg0KDQpJIGRlY2lkZWQgdG8gb25seSBhbmFseXNlIGJvb2tzIHRoYXQgd2VyZSBwdWJsaXNoZWQgaW4gRW5nbGlzaC4NCg0KYGBge3J9DQplbmdfYm9va3MgPC0gc2VsZWN0ZWRfYm9va3MgJT4lIA0KICBmaWx0ZXIobGFuZ3VhZ2VfY29kZSAlaW4lIGMoImVuZyIsICJlbi1VUyIsICJlbi1HQiIsICJlbi1DQSIsICJlbm0iKSkgJT4lIA0KICBzZWxlY3QoIWxhbmd1YWdlX2NvZGUpDQoNCmVuZ19ib29rcw0KYGBgDQoNCg0KSSByZW1vdmVkIGF1ZGlvYm9va3MgZnJvbSB0aGUgZGF0YSwgYmVjYXVzZSB0aGV5IHVzdWFsbHkgY29udGFpbiAwIG9yIGEgdmVyeSANCnNtYWxsIG51bWJlciBvZiBwYWdlcyB0aGF0IGRvIG5vdCBtYXRjaCB1cCB3aXRoIHRoZSBwaHlzaWNhbCB2ZXJzaW9uIG9mIHRoZSBib29rLg0KDQpgYGB7cn0NCmVuZ19ib29rcyA8LSBlbmdfYm9va3MgJT4lIA0KICBmaWx0ZXIoIWdyZXBsKCJBdWRpbyIsIHB1Ymxpc2hlcikpICU+JSANCiAgZmlsdGVyKCFncmVwbCgiQXVkaW8iLCB0aXRsZSkpDQoNCmVuZ19ib29rcw0KYGBgDQoNCg0KSSByZW1vdmVkIGJveGVkIHNldHMuDQoNCmBgYHtyfQ0KZW5nX2Jvb2tzIDwtIGVuZ19ib29rcyAlPiUgDQogIGZpbHRlcighZ3JlcGwoIkJveGVkIFNldCIsIHRpdGxlKSkNCg0KZW5nX2Jvb2tzDQpgYGANCg0KDQpJIGV4dHJhY3RlZCB0aGUgcHVibGljYXRpb24geWVhciBmcm9tIHRoZSBwdWJsaWNhdGlvbiBkYXRlLg0KDQpgYGB7cn0NCmJvb2tzX3llYXIgPC0gZW5nX2Jvb2tzICU+JSANCiAgbXV0YXRlKHB1YmxpY2F0aW9uX3llYXIgPSBmb3JtYXQoYXMuRGF0ZShwdWJsaWNhdGlvbl9kYXRlLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmb3JtYXQgPSAiJW0vJWQvJVkiKSwgIiVZIikpICU+JSANCiAgc2VsZWN0KCFwdWJsaWNhdGlvbl9kYXRlKQ0KICANCmJvb2tzX3llYXINCmBgYA0KDQoNCkkgY2hlY2tlZCBmb3IgTkFzIGluIHRoZSBwdWJsaWNhdGlvbl9kYXRlLg0KDQpgYGB7cn0NCmJvb2tzX3llYXIgJT4lIA0KICBzdW1tYXJpc2UoY291bnQgPSBzdW0oaXMubmEocHVibGljYXRpb25feWVhcikpKQ0KYGBgDQoNCg0KSSBhZGRlZCB0aGUgY29ycmVjdCBwdWJsaWNhdGlvbiB5ZWFyIGZvciB0aGUgbWlzc2luZyB2YWx1ZS4gDQoNCmBgYHtyfQ0KYm9va3NfeWVhciAlPiUgDQogIGZpbHRlcihpcy5uYShwdWJsaWNhdGlvbl95ZWFyKSkNCg0KYm9va3MgJT4lIA0KICBmaWx0ZXIoZ3JlcGwoIkluIFB1cnN1aXQgb2YgdGhlIFByb3BlciBTaW5uZXIiLCB0aXRsZSkpDQoNCmJvb2tzX3llYXIgPC0gYm9va3NfeWVhciAlPiUgDQogIG11dGF0ZShwdWJsaWNhdGlvbl95ZWFyID0gY29hbGVzY2UocHVibGljYXRpb25feWVhciwgIjIwMDAiKSkNCmBgYA0KDQoNCg==</div>
 
 
 
