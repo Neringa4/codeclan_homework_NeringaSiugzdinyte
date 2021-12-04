@@ -135,3 +135,4 @@ Number of NAs in numerical columns
 movies %>% 
   summarise(across(where(is.numeric), ~sum(is.na(.))))
 ```
+
