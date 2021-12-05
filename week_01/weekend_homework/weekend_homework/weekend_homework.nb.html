@@ -217,36 +217,11 @@ pre code {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
-<pre class="r"><code>library(tidyverse)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2RzIG92ZXJ3cml0dGVuIGJ5ICdkYnBseXInOlxuICBtZXRob2QgICAgICAgICBmcm9tXG4gIHByaW50LnRibF9sYXp5ICAgICBcbiAgcHJpbnQudGJsX3NxbCAgICAgIFxuLS0gQXR0YWNoaW5nIHBhY2thZ2VzIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIHRpZHl2ZXJzZSAxLjMuMSAtLVxudiBnZ3Bsb3QyIDMuMy41ICAgICB2IHB1cnJyICAgMC4zLjRcbnYgdGliYmxlICAzLjEuNiAgICAgdiBkcGx5ciAgIDEuMC43XG52IHRpZHlyICAgMS4xLjQgICAgIHYgc3RyaW5nciAxLjQuMFxudiByZWFkciAgIDIuMS4wICAgICB2IGZvcmNhdHMgMC41LjFcbi0tIENvbmZsaWN0cyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSB0aWR5dmVyc2VfY29uZmxpY3RzKCkgLS1cbnggZHBseXI6OmZpbHRlcigpIG1hc2tzIHN0YXRzOjpmaWx0ZXIoKVxueCBkcGx5cjo6bGFnKCkgICAgbWFza3Mgc3RhdHM6OmxhZygpXG4ifQ== -->
-<pre><code>Registered S3 methods overwritten by &#39;dbplyr&#39;:
-  method         from
-  print.tbl_lazy     
-  print.tbl_sql      
--- Attaching packages ----------------------------------------------------------- tidyverse 1.3.1 --
-v ggplot2 3.3.5     v purrr   0.3.4
-v tibble  3.1.6     v dplyr   1.0.7
-v tidyr   1.1.4     v stringr 1.4.0
-v readr   2.1.0     v forcats 0.5.1
--- Conflicts -------------------------------------------------------------- tidyverse_conflicts() --
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3MgPC0gcmVhZF9jc3YoXCJkYXRhL2Jvb2tzLmNzdlwiKVxuYGBgIn0= -->
-<pre class="r"><code>books &lt;- read_csv(&quot;data/books.csv&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTExMjMgQ29sdW1uczogMTNcbi0tIENvbHVtbiBzcGVjaWZpY2F0aW9uIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbkRlbGltaXRlcjogXCIsXCJcbmNociAoNyk6IHRpdGxlLCBhdXRob3JzLCBpc2JuLCBpc2JuMTMsIGxhbmd1YWdlX2NvZGUsIHB1YmxpY2F0aW9uX2RhdGUsIHB1Ymxpc2hlclxuZGJsICg2KTogcm93aWQsIGJvb2tJRCwgYXZlcmFnZV9yYXRpbmcsIG51bV9wYWdlcywgcmF0aW5nc19jb3VudCwgdGV4dF9yZXZpZXdzX2NvdW50XG5cbmkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG5pIFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
-<pre><code>Rows: 11123 Columns: 13
--- Column specification ----------------------------------------------------------------------------
-Delimiter: &quot;,&quot;
-chr (7): title, authors, isbn, isbn13, language_code, publication_date, publisher
-dbl (6): rowid, bookID, average_rating, num_pages, ratings_count, text_reviews_count
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5cbmJvb2tzIDwtIHJlYWRfY3N2KFwiZGF0YS9ib29rcy5jc3ZcIilcbmBgYCJ9 -->
+<pre class="r"><code>library(tidyverse)
 
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<!-- rnb-output-end -->
+books &lt;- read_csv(&quot;data/books.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -261,23 +236,6 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2xpbXBzZShib29rcylcbmBgYCJ9 -->
 <pre class="r"><code>glimpse(books)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTEsMTIzXG5Db2x1bW5zOiAxM1xuJCByb3dpZCAgICAgICAgICAgICAgPGRibD4gMSwgMiwgMywgNCwgNSwgNiwgNywgOCwgOSwgMTAsIDExLCAxMiwgMTMsIDE0LCAxNSwgMTYsIDE3LCAxOCwgMTksIDIwLCB+XG4kIGJvb2tJRCAgICAgICAgICAgICA8ZGJsPiAxLCAyLCA0LCA1LCA4LCA5LCAxMCwgMTIsIDEzLCAxNCwgMTYsIDE4LCAyMSwgMjIsIDIzLCAyNCwgMjUsIDI2LCAyNywgMn5cbiQgdGl0bGUgICAgICAgICAgICAgIDxjaHI+IFwiSGFycnkgUG90dGVyIGFuZCB0aGUgSGFsZi1CbG9vZCBQcmluY2UgKEhhcnJ5IFBvdHRlciAgIzYpXCIsIFwiSGFycnkgUG90flxuJCBhdXRob3JzICAgICAgICAgICAgPGNocj4gXCJKLksuIFJvd2xpbmcvTWFyeSBHcmFuZFByw6lcIiwgXCJKLksuIFJvd2xpbmcvTWFyeSBHcmFuZFByw6lcIiwgXCJKLksuIFJvd2xpflxuJCBhdmVyYWdlX3JhdGluZyAgICAgPGRibD4gNC41NywgNC40OSwgNC40MiwgNC41NiwgNC43OCwgMy43NCwgNC43MywgNC4zOCwgNC4zOCwgNC4yMiwgNC4yMiwgNC4zOCx+XG4kIGlzYm4gICAgICAgICAgICAgICA8Y2hyPiBcIjA0Mzk3ODU5NjBcIiwgXCIwNDM5MzU4MDc4XCIsIFwiMDQzOTU1NDg5NlwiLCBcIjA0Mzk2NTU0OFhcIiwgXCIwNDM5NjgyNTg0XCIsIFwiflxuJCBpc2JuMTMgICAgICAgICAgICAgPGNocj4gXCI5NzgwNDM5Nzg1OTY5XCIsIFwiOTc4MDQzOTM1ODA3MVwiLCBcIjk3ODA0Mzk1NTQ4OTNcIiwgXCI5NzgwNDM5NjU1NDg0XCIsIFwiOTd+XG4kIGxhbmd1YWdlX2NvZGUgICAgICA8Y2hyPiBcImVuZ1wiLCBcImVuZ1wiLCBcImVuZ1wiLCBcImVuZ1wiLCBcImVuZ1wiLCBcImVuLVVTXCIsIFwiZW5nXCIsIFwiZW5nXCIsIFwiZW5nXCIsIFwiZW5nXCIsflxuJCBudW1fcGFnZXMgICAgICAgICAgPGRibD4gNjUyLCA4NzAsIDM1MiwgNDM1LCAyNjkwLCAxNTIsIDMzNDIsIDgxNSwgODE1LCAyMTUsIDYsIDgxNSwgNTQ0LCA1NSwgMjV+XG4kIHJhdGluZ3NfY291bnQgICAgICA8ZGJsPiAyMDk1NjkwLCAyMTUzMTY3LCA2MzMzLCAyMzM5NTg1LCA0MTQyOCwgMTksIDI4MjQyLCAzNjI4LCAyNDk1NTgsIDQ5MzAsIH5cbiQgdGV4dF9yZXZpZXdzX2NvdW50IDxkYmw+IDI3NTkxLCAyOTIyMSwgMjQ0LCAzNjMyNSwgMTY0LCAxLCA4MDgsIDI1NCwgNDA4MCwgNDYwLCAyNTMsIDE5NSwgOTM5NiwgflxuJCBwdWJsaWNhdGlvbl9kYXRlICAgPGNocj4gXCI5LzE2LzIwMDZcIiwgXCI5LzEvMjAwNFwiLCBcIjExLzEvMjAwM1wiLCBcIjUvMS8yMDA0XCIsIFwiOS8xMy8yMDA0XCIsIFwiNC8yNi8yMH5cbiQgcHVibGlzaGVyICAgICAgICAgIDxjaHI+IFwiU2Nob2xhc3RpYyBJbmMuXCIsIFwiU2Nob2xhc3RpYyBJbmMuXCIsIFwiU2Nob2xhc3RpY1wiLCBcIlNjaG9sYXN0aWMgSW5jLlwiLCB+XG4ifQ== -->
-<pre><code>Rows: 11,123
-Columns: 13
-$ rowid              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ~
-$ bookID             &lt;dbl&gt; 1, 2, 4, 5, 8, 9, 10, 12, 13, 14, 16, 18, 21, 22, 23, 24, 25, 26, 27, 2~
-$ title              &lt;chr&gt; &quot;Harry Potter and the Half-Blood Prince (Harry Potter  #6)&quot;, &quot;Harry Pot~
-$ authors            &lt;chr&gt; &quot;J.K. Rowling/Mary GrandPré&quot;, &quot;J.K. Rowling/Mary GrandPré&quot;, &quot;J.K. Rowli~
-$ average_rating     &lt;dbl&gt; 4.57, 4.49, 4.42, 4.56, 4.78, 3.74, 4.73, 4.38, 4.38, 4.22, 4.22, 4.38,~
-$ isbn               &lt;chr&gt; &quot;0439785960&quot;, &quot;0439358078&quot;, &quot;0439554896&quot;, &quot;043965548X&quot;, &quot;0439682584&quot;, &quot;~
-$ isbn13             &lt;chr&gt; &quot;9780439785969&quot;, &quot;9780439358071&quot;, &quot;9780439554893&quot;, &quot;9780439655484&quot;, &quot;97~
-$ language_code      &lt;chr&gt; &quot;eng&quot;, &quot;eng&quot;, &quot;eng&quot;, &quot;eng&quot;, &quot;eng&quot;, &quot;en-US&quot;, &quot;eng&quot;, &quot;eng&quot;, &quot;eng&quot;, &quot;eng&quot;,~
-$ num_pages          &lt;dbl&gt; 652, 870, 352, 435, 2690, 152, 3342, 815, 815, 215, 6, 815, 544, 55, 25~
-$ ratings_count      &lt;dbl&gt; 2095690, 2153167, 6333, 2339585, 41428, 19, 28242, 3628, 249558, 4930, ~
-$ text_reviews_count &lt;dbl&gt; 27591, 29221, 244, 36325, 164, 1, 808, 254, 4080, 460, 253, 195, 9396, ~
-$ publication_date   &lt;chr&gt; &quot;9/16/2006&quot;, &quot;9/1/2004&quot;, &quot;11/1/2003&quot;, &quot;5/1/2004&quot;, &quot;9/13/2004&quot;, &quot;4/26/20~
-$ publisher          &lt;chr&gt; &quot;Scholastic Inc.&quot;, &quot;Scholastic Inc.&quot;, &quot;Scholastic&quot;, &quot;Scholastic Inc.&quot;, ~</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -285,12 +243,6 @@ $ publisher          &lt;chr&gt; &quot;Scholastic Inc.&quot;, &quot;Scholastic I
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoYm9va3MpXG5gYGAifQ== -->
 <pre class="r"><code>names(books)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcInJvd2lkXCIgICAgICAgICAgICAgIFwiYm9va0lEXCIgICAgICAgICAgICAgXCJ0aXRsZVwiICAgICAgICAgICAgICBcImF1dGhvcnNcIiAgICAgICAgICAgXG4gWzVdIFwiYXZlcmFnZV9yYXRpbmdcIiAgICAgXCJpc2JuXCIgICAgICAgICAgICAgICBcImlzYm4xM1wiICAgICAgICAgICAgIFwibGFuZ3VhZ2VfY29kZVwiICAgICBcbiBbOV0gXCJudW1fcGFnZXNcIiAgICAgICAgICBcInJhdGluZ3NfY291bnRcIiAgICAgIFwidGV4dF9yZXZpZXdzX2NvdW50XCIgXCJwdWJsaWNhdGlvbl9kYXRlXCIgIFxuWzEzXSBcInB1Ymxpc2hlclwiICAgICAgICAgXG4ifQ== -->
-<pre><code> [1] &quot;rowid&quot;              &quot;bookID&quot;             &quot;title&quot;              &quot;authors&quot;           
- [5] &quot;average_rating&quot;     &quot;isbn&quot;               &quot;isbn13&quot;             &quot;language_code&quot;     
- [9] &quot;num_pages&quot;          &quot;ratings_count&quot;      &quot;text_reviews_count&quot; &quot;publication_date&quot;  
-[13] &quot;publisher&quot;         </code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>I was not interested in row or book IDs or isbn numbers.</p>
@@ -409,9 +361,35 @@ books_year</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>Added in decades.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3NfMiA8LSBib29rc195ZWFyICU+JSBcbiAgbXV0YXRlKGRlY2FkZSA9IGNhc2Vfd2hlbihcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTkxMCB+IFwiMTkwMHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTkyMCB+IFwiMTkxMHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTkzMCB+IFwiMTkyMHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTk0MCB+IFwiMTkzMHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTk1MCB+IFwiMTk0MHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTk2MCB+IFwiMTk1MHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTk3MCB+IFwiMTk2MHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTk4MCB+IFwiMTk3MHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTk5MCB+IFwiMTk4MHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMjAwMCB+IFwiMTk5MHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMjAxMCB+IFwiMjAwMHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMjAyMCB+IFwiMjAxMHNcIixcbiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMjAzMCB+IFwiMjAyMHNcIlxuICApKVxuXG5ib29rc18yXG5gYGAifQ== -->
+<pre class="r"><code>books_2 &lt;- books_year %&gt;% 
+  mutate(decade = case_when(
+    publication_year &lt; 1910 ~ &quot;1900s&quot;,
+    publication_year &lt; 1920 ~ &quot;1910s&quot;,
+    publication_year &lt; 1930 ~ &quot;1920s&quot;,
+    publication_year &lt; 1940 ~ &quot;1930s&quot;,
+    publication_year &lt; 1950 ~ &quot;1940s&quot;,
+    publication_year &lt; 1960 ~ &quot;1950s&quot;,
+    publication_year &lt; 1970 ~ &quot;1960s&quot;,
+    publication_year &lt; 1980 ~ &quot;1970s&quot;,
+    publication_year &lt; 1990 ~ &quot;1980s&quot;,
+    publication_year &lt; 2000 ~ &quot;1990s&quot;,
+    publication_year &lt; 2010 ~ &quot;2000s&quot;,
+    publication_year &lt; 2020 ~ &quot;2010s&quot;,
+    publication_year &lt; 2030 ~ &quot;2020s&quot;
+  ))
+
+books_2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KDQpib29rcyA8LSByZWFkX2NzdigiZGF0YS9ib29rcy5jc3YiKQ0KYGBgDQoNCmBgYHtyfQ0Kdmlldyhib29rcykNCmBgYA0KDQpgYGB7cn0NCmdsaW1wc2UoYm9va3MpDQpgYGANCg0KYGBge3J9DQpuYW1lcyhib29rcykNCmBgYA0KDQoNCkkgd2FzIG5vdCBpbnRlcmVzdGVkIGluIHJvdyBvciBib29rIElEcyBvciBpc2JuIG51bWJlcnMuDQoNCmBgYHtyfQ0Kc2VsZWN0ZWRfYm9va3MgPC0gYm9va3MgJT4lIA0KICBzZWxlY3QodGl0bGUsIGF1dGhvcnMsIGF2ZXJhZ2VfcmF0aW5nLCBsYW5ndWFnZV9jb2RlLCBudW1fcGFnZXMsIA0KICAgICAgICAgcmF0aW5nc19jb3VudCwgdGV4dF9yZXZpZXdzX2NvdW50LCBwdWJsaWNhdGlvbl9kYXRlLCBwdWJsaXNoZXIpDQoNCnNlbGVjdGVkX2Jvb2tzDQpgYGANCg0KDQpDaGVja2VkIGZvciBOQXMgaW4gZXZlcnkgY29sdW1uIC0gdGhlcmUgYXJlIG5vbmUuIA0KDQpgYGB7cn0NCnNlbGVjdGVkX2Jvb2tzICU+JSANCiAgc3VtbWFyaXNlKGFjcm9zcyguY29scyA9IGV2ZXJ5dGhpbmcoKSwgLmZucyA9IH5zdW0oaXMubmEoLngpKSkpDQpgYGANCg0KDQpDaGVja2VkIGhvdyBtYW55IGJvb2tzIGJlbG9uZyB0byBlYWNoIGxhbmd1YWdlIGNvZGUuDQoNCmBgYHtyfQ0Kc2VsZWN0ZWRfYm9va3MgJT4lIA0KICBncm91cF9ieShsYW5ndWFnZV9jb2RlKSAlPiUgDQogIHN1bW1hcmlzZShsYW5ndWFnZV9jb3VudCA9IG4oKSkgJT4lIA0KICB1bmdyb3VwDQpgYGANCg0KDQpJIGRlY2lkZWQgdG8gb25seSBhbmFseXNlIGJvb2tzIHRoYXQgd2VyZSBwdWJsaXNoZWQgaW4gRW5nbGlzaC4NCg0KYGBge3J9DQplbmdfYm9va3MgPC0gc2VsZWN0ZWRfYm9va3MgJT4lIA0KICBmaWx0ZXIobGFuZ3VhZ2VfY29kZSAlaW4lIGMoImVuZyIsICJlbi1VUyIsICJlbi1HQiIsICJlbi1DQSIsICJlbm0iKSkgJT4lIA0KICBzZWxlY3QoIWxhbmd1YWdlX2NvZGUpDQoNCmVuZ19ib29rcw0KYGBgDQoNCg0KSSByZW1vdmVkIGF1ZGlvYm9va3MgZnJvbSB0aGUgZGF0YSwgYmVjYXVzZSB0aGV5IHVzdWFsbHkgY29udGFpbiAwIG9yIGEgdmVyeSANCnNtYWxsIG51bWJlciBvZiBwYWdlcyB0aGF0IGRvIG5vdCBtYXRjaCB1cCB3aXRoIHRoZSBwaHlzaWNhbCB2ZXJzaW9uIG9mIHRoZSBib29rLg0KDQpgYGB7cn0NCmVuZ19ib29rcyA8LSBlbmdfYm9va3MgJT4lIA0KICBmaWx0ZXIoIWdyZXBsKCJBdWRpbyIsIHB1Ymxpc2hlcikpICU+JSANCiAgZmlsdGVyKCFncmVwbCgiQXVkaW8iLCB0aXRsZSkpDQoNCmVuZ19ib29rcw0KYGBgDQoNCg0KSSByZW1vdmVkIGJveGVkIHNldHMuDQoNCmBgYHtyfQ0KZW5nX2Jvb2tzIDwtIGVuZ19ib29rcyAlPiUgDQogIGZpbHRlcighZ3JlcGwoIkJveGVkIFNldCIsIHRpdGxlKSkNCg0KZW5nX2Jvb2tzDQpgYGANCg0KDQpJIGV4dHJhY3RlZCB0aGUgcHVibGljYXRpb24geWVhciBmcm9tIHRoZSBwdWJsaWNhdGlvbiBkYXRlLg0KDQpgYGB7cn0NCmJvb2tzX3llYXIgPC0gZW5nX2Jvb2tzICU+JSANCiAgbXV0YXRlKHB1YmxpY2F0aW9uX3llYXIgPSBmb3JtYXQoYXMuRGF0ZShwdWJsaWNhdGlvbl9kYXRlLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmb3JtYXQgPSAiJW0vJWQvJVkiKSwgIiVZIikpICU+JSANCiAgc2VsZWN0KCFwdWJsaWNhdGlvbl9kYXRlKQ0KICANCmJvb2tzX3llYXINCmBgYA0KDQoNCkkgY2hlY2tlZCBmb3IgTkFzIGluIHRoZSBwdWJsaWNhdGlvbl95ZWFyLg0KDQpgYGB7cn0NCmJvb2tzX3llYXIgJT4lIA0KICBzdW1tYXJpc2UoY291bnQgPSBzdW0oaXMubmEocHVibGljYXRpb25feWVhcikpKQ0KYGBgDQoNCg0KSSBhZGRlZCB0aGUgY29ycmVjdCBwdWJsaWNhdGlvbiB5ZWFyIGZvciB0aGUgbWlzc2luZyB2YWx1ZS4gDQoNCmBgYHtyfQ0KYm9va3NfeWVhciAlPiUgDQogIGZpbHRlcihpcy5uYShwdWJsaWNhdGlvbl95ZWFyKSkNCg0KYm9va3MgJT4lIA0KICBmaWx0ZXIoZ3JlcGwoIkluIFB1cnN1aXQgb2YgdGhlIFByb3BlciBTaW5uZXIiLCB0aXRsZSkpDQoNCmJvb2tzX3llYXIgPC0gYm9va3NfeWVhciAlPiUgDQogIG11dGF0ZShwdWJsaWNhdGlvbl95ZWFyID0gY29hbGVzY2UocHVibGljYXRpb25feWVhciwgIjIwMDAiKSkNCmBgYA0KDQoNCkkgcmVwbGFjZWQgbnVtYmVyIG9mIHBhZ2VzIHRoYXQgd2VyZSAwIHdpdGggdGhlIG1lZGlhbiBuby4gb2YgcGFnZXMuDQoNCmBgYHtyfQ0KYm9va3NfeWVhciA8LSBib29rc195ZWFyICU+JSANCiAgbXV0YXRlKG51bV9wYWdlcyA9IGlmX2Vsc2UobnVtX3BhZ2VzID09IDAsIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICBtZWRpYW4obnVtX3BhZ2VzKSwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbnVtX3BhZ2VzKSkNCmJvb2tzX3llYXINCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KDQpib29rcyA8LSByZWFkX2NzdigiZGF0YS9ib29rcy5jc3YiKQ0KYGBgDQoNCmBgYHtyfQ0Kdmlldyhib29rcykNCmBgYA0KDQpgYGB7cn0NCmdsaW1wc2UoYm9va3MpDQpgYGANCg0KYGBge3J9DQpuYW1lcyhib29rcykNCmBgYA0KDQoNCkkgd2FzIG5vdCBpbnRlcmVzdGVkIGluIHJvdyBvciBib29rIElEcyBvciBpc2JuIG51bWJlcnMuDQoNCmBgYHtyfQ0Kc2VsZWN0ZWRfYm9va3MgPC0gYm9va3MgJT4lIA0KICBzZWxlY3QodGl0bGUsIGF1dGhvcnMsIGF2ZXJhZ2VfcmF0aW5nLCBsYW5ndWFnZV9jb2RlLCBudW1fcGFnZXMsIA0KICAgICAgICAgcmF0aW5nc19jb3VudCwgdGV4dF9yZXZpZXdzX2NvdW50LCBwdWJsaWNhdGlvbl9kYXRlLCBwdWJsaXNoZXIpDQoNCnNlbGVjdGVkX2Jvb2tzDQpgYGANCg0KDQpDaGVja2VkIGZvciBOQXMgaW4gZXZlcnkgY29sdW1uIC0gdGhlcmUgYXJlIG5vbmUuIA0KDQpgYGB7cn0NCnNlbGVjdGVkX2Jvb2tzICU+JSANCiAgc3VtbWFyaXNlKGFjcm9zcyguY29scyA9IGV2ZXJ5dGhpbmcoKSwgLmZucyA9IH5zdW0oaXMubmEoLngpKSkpDQpgYGANCg0KDQpDaGVja2VkIGhvdyBtYW55IGJvb2tzIGJlbG9uZyB0byBlYWNoIGxhbmd1YWdlIGNvZGUuDQoNCmBgYHtyfQ0Kc2VsZWN0ZWRfYm9va3MgJT4lIA0KICBncm91cF9ieShsYW5ndWFnZV9jb2RlKSAlPiUgDQogIHN1bW1hcmlzZShsYW5ndWFnZV9jb3VudCA9IG4oKSkgJT4lIA0KICB1bmdyb3VwDQpgYGANCg0KDQpJIGRlY2lkZWQgdG8gb25seSBhbmFseXNlIGJvb2tzIHRoYXQgd2VyZSBwdWJsaXNoZWQgaW4gRW5nbGlzaC4NCg0KYGBge3J9DQplbmdfYm9va3MgPC0gc2VsZWN0ZWRfYm9va3MgJT4lIA0KICBmaWx0ZXIobGFuZ3VhZ2VfY29kZSAlaW4lIGMoImVuZyIsICJlbi1VUyIsICJlbi1HQiIsICJlbi1DQSIsICJlbm0iKSkgJT4lIA0KICBzZWxlY3QoIWxhbmd1YWdlX2NvZGUpDQoNCmVuZ19ib29rcw0KYGBgDQoNCg0KSSByZW1vdmVkIGF1ZGlvYm9va3MgZnJvbSB0aGUgZGF0YSwgYmVjYXVzZSB0aGV5IHVzdWFsbHkgY29udGFpbiAwIG9yIGEgdmVyeSANCnNtYWxsIG51bWJlciBvZiBwYWdlcyB0aGF0IGRvIG5vdCBtYXRjaCB1cCB3aXRoIHRoZSBwaHlzaWNhbCB2ZXJzaW9uIG9mIHRoZSBib29rLg0KDQpgYGB7cn0NCmVuZ19ib29rcyA8LSBlbmdfYm9va3MgJT4lIA0KICBmaWx0ZXIoIWdyZXBsKCJBdWRpbyIsIHB1Ymxpc2hlcikpICU+JSANCiAgZmlsdGVyKCFncmVwbCgiQXVkaW8iLCB0aXRsZSkpDQoNCmVuZ19ib29rcw0KYGBgDQoNCg0KSSByZW1vdmVkIGJveGVkIHNldHMuDQoNCmBgYHtyfQ0KZW5nX2Jvb2tzIDwtIGVuZ19ib29rcyAlPiUgDQogIGZpbHRlcighZ3JlcGwoIkJveGVkIFNldCIsIHRpdGxlKSkNCg0KZW5nX2Jvb2tzDQpgYGANCg0KDQpJIGV4dHJhY3RlZCB0aGUgcHVibGljYXRpb24geWVhciBmcm9tIHRoZSBwdWJsaWNhdGlvbiBkYXRlLg0KDQpgYGB7cn0NCmJvb2tzX3llYXIgPC0gZW5nX2Jvb2tzICU+JSANCiAgbXV0YXRlKHB1YmxpY2F0aW9uX3llYXIgPSBmb3JtYXQoYXMuRGF0ZShwdWJsaWNhdGlvbl9kYXRlLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmb3JtYXQgPSAiJW0vJWQvJVkiKSwgIiVZIikpICU+JSANCiAgc2VsZWN0KCFwdWJsaWNhdGlvbl9kYXRlKQ0KICANCmJvb2tzX3llYXINCmBgYA0KDQoNCkkgY2hlY2tlZCBmb3IgTkFzIGluIHRoZSBwdWJsaWNhdGlvbl95ZWFyLg0KDQpgYGB7cn0NCmJvb2tzX3llYXIgJT4lIA0KICBzdW1tYXJpc2UoY291bnQgPSBzdW0oaXMubmEocHVibGljYXRpb25feWVhcikpKQ0KYGBgDQoNCg0KSSBhZGRlZCB0aGUgY29ycmVjdCBwdWJsaWNhdGlvbiB5ZWFyIGZvciB0aGUgbWlzc2luZyB2YWx1ZS4gDQoNCmBgYHtyfQ0KYm9va3NfeWVhciAlPiUgDQogIGZpbHRlcihpcy5uYShwdWJsaWNhdGlvbl95ZWFyKSkNCg0KYm9va3MgJT4lIA0KICBmaWx0ZXIoZ3JlcGwoIkluIFB1cnN1aXQgb2YgdGhlIFByb3BlciBTaW5uZXIiLCB0aXRsZSkpDQoNCmJvb2tzX3llYXIgPC0gYm9va3NfeWVhciAlPiUgDQogIG11dGF0ZShwdWJsaWNhdGlvbl95ZWFyID0gY29hbGVzY2UocHVibGljYXRpb25feWVhciwgIjIwMDAiKSkNCmBgYA0KDQoNCkkgcmVwbGFjZWQgbnVtYmVyIG9mIHBhZ2VzIHRoYXQgd2VyZSAwIHdpdGggdGhlIG1lZGlhbiBuby4gb2YgcGFnZXMuDQoNCmBgYHtyfQ0KYm9va3NfeWVhciA8LSBib29rc195ZWFyICU+JSANCiAgbXV0YXRlKG51bV9wYWdlcyA9IGlmX2Vsc2UobnVtX3BhZ2VzID09IDAsIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICBtZWRpYW4obnVtX3BhZ2VzKSwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbnVtX3BhZ2VzKSkNCmJvb2tzX3llYXINCmBgYA0KDQpBZGRlZCBpbiBkZWNhZGVzLg0KDQpgYGB7cn0NCmJvb2tzXzIgPC0gYm9va3NfeWVhciAlPiUgDQogIG11dGF0ZShkZWNhZGUgPSBjYXNlX3doZW4oDQogICAgcHVibGljYXRpb25feWVhciA8IDE5MTAgfiAiMTkwMHMiLA0KICAgIHB1YmxpY2F0aW9uX3llYXIgPCAxOTIwIH4gIjE5MTBzIiwNCiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTkzMCB+ICIxOTIwcyIsDQogICAgcHVibGljYXRpb25feWVhciA8IDE5NDAgfiAiMTkzMHMiLA0KICAgIHB1YmxpY2F0aW9uX3llYXIgPCAxOTUwIH4gIjE5NDBzIiwNCiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTk2MCB+ICIxOTUwcyIsDQogICAgcHVibGljYXRpb25feWVhciA8IDE5NzAgfiAiMTk2MHMiLA0KICAgIHB1YmxpY2F0aW9uX3llYXIgPCAxOTgwIH4gIjE5NzBzIiwNCiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMTk5MCB+ICIxOTgwcyIsDQogICAgcHVibGljYXRpb25feWVhciA8IDIwMDAgfiAiMTk5MHMiLA0KICAgIHB1YmxpY2F0aW9uX3llYXIgPCAyMDEwIH4gIjIwMDBzIiwNCiAgICBwdWJsaWNhdGlvbl95ZWFyIDwgMjAyMCB+ICIyMDEwcyIsDQogICAgcHVibGljYXRpb25feWVhciA8IDIwMzAgfiAiMjAyMHMiDQogICkpDQoNCmJvb2tzXzINCmBgYA0KDQoNCisrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQoNCg==</div>
 
 
 

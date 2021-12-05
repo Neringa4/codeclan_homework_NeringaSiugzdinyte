@@ -128,3 +128,29 @@ books_year <- books_year %>%
 books_year
 ```
 
+Added in decades.
+
+```{r}
+books_2 <- books_year %>% 
+  mutate(decade = case_when(
+    publication_year < 1910 ~ "1900s",
+    publication_year < 1920 ~ "1910s",
+    publication_year < 1930 ~ "1920s",
+    publication_year < 1940 ~ "1930s",
+    publication_year < 1950 ~ "1940s",
+    publication_year < 1960 ~ "1950s",
+    publication_year < 1970 ~ "1960s",
+    publication_year < 1980 ~ "1970s",
+    publication_year < 1990 ~ "1980s",
+    publication_year < 2000 ~ "1990s",
+    publication_year < 2010 ~ "2000s",
+    publication_year < 2020 ~ "2010s",
+    publication_year < 2030 ~ "2020s"
+  ))
+
+books_2
+```
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
