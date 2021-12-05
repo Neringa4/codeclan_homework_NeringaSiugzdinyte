@@ -87,21 +87,21 @@ eng_books
 I replaced number of pages that were 0 with the median no. of pages.
 
 ```{r}
-books_year <- books_year %>% 
+eng_books <- eng_books %>% 
   mutate(num_pages = if_else(num_pages == 0, 
                              median(num_pages),
                              num_pages))
-books_year
+eng_books
 ```
 
 
-I removed observations where the average ratings count is 0.
+I removed observations where the ratings count is 0.
 
 ```{r}
-books_year <- books_year %>% 
+eng_books <- eng_books %>% 
   filter(ratings_count != 0)
 
-books_year
+eng_books
 ```
 
 I extracted the publication year from the publication date.
@@ -164,6 +164,7 @@ books_2
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
 I found the 10 highest rated books that had more than 100 ratings.
 
 ```{r}
@@ -183,5 +184,16 @@ books_2 %>%
   filter(book_count >= 10) %>% 
   summarise(avg_rating = mean(average_rating), .groups = "drop") %>% 
   arrange(desc(avg_rating))
+```
+
+
+I found the highest rated book for each decade that had more than 100 ratings.
+
+```{r}
+books_2 %>% 
+  filter(ratings_count > 100) %>% 
+  group_by(decade) %>% 
+  slice_max(average_rating, n = 1) %>% 
+  select(decade, title, average_rating)
 ```
 
