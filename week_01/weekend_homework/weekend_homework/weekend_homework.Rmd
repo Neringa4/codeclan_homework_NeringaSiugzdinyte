@@ -96,7 +96,7 @@ books_year
 ```
 
 
-I checked for NAs in the publication_date.
+I checked for NAs in the publication_year.
 
 ```{r}
 books_year %>% 
@@ -117,4 +117,14 @@ books_year <- books_year %>%
   mutate(publication_year = coalesce(publication_year, "2000"))
 ```
 
+
+I replaced number of pages that were 0 with the median no. of pages.
+
+```{r}
+books_year <- books_year %>% 
+  mutate(num_pages = if_else(num_pages == 0, 
+                             median(num_pages),
+                             num_pages))
+books_year
+```
 
