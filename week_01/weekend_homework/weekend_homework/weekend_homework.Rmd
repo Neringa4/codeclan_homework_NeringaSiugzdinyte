@@ -154,3 +154,15 @@ books_2
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+I calculated the average rating for each decade and omitted decades that 
+contained less than 10 observations.
+
+```{r}
+books_2 %>% 
+  group_by(decade) %>% 
+  mutate(book_count = n()) %>% 
+  filter(book_count >= 10) %>% 
+  summarise(avg_rating = mean(average_rating)) %>% 
+  arrange(desc(avg_rating))
+```
+
