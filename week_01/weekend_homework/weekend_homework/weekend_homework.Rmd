@@ -104,6 +104,7 @@ eng_books <- eng_books %>%
 eng_books
 ```
 
+
 I extracted the publication year from the publication date.
 
 ```{r}
@@ -194,6 +195,20 @@ books_2 %>%
   filter(ratings_count > 100) %>% 
   group_by(decade) %>% 
   slice_max(average_rating, n = 1) %>% 
-  select(decade, title, average_rating)
+  select(decade, title, average_rating) %>% 
+  ungroup
+```
+
+
+I found the 10 publishers with the highest average ratings and omitted 
+publishers with less than 10 books.
+
+```{r}
+books_2 %>% 
+  group_by(publisher)%>%
+  mutate(book_count = n()) %>% 
+  filter(book_count > 10) %>% 
+  summarise(avg_publisher_rating = mean(average_rating), .groups = "drop") %>% 
+  slice_max(avg_publisher_rating, n = 10)
 ```
 
