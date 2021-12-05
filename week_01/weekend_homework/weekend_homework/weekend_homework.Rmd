@@ -205,10 +205,32 @@ publishers with less than 10 books.
 
 ```{r}
 books_2 %>% 
-  group_by(publisher)%>%
+  group_by(publisher) %>%
   mutate(book_count = n()) %>% 
   filter(book_count > 10) %>% 
   summarise(avg_publisher_rating = mean(average_rating), .groups = "drop") %>% 
   slice_max(avg_publisher_rating, n = 10)
+```
+
+
+I found 10 publishers with the highest amount of books, and for each of them I
+found their highest rated book. ???????
+
+```{r}
+books_2 %>%
+  group_by(publisher) %>% 
+  summarise(book_count = n()) %>% 
+  slice_max(book_count, n = 10)
+```
+
+
+I found 10 authors with the highest ratings (more than 100 ratings).
+
+```{r}
+books_2 %>% 
+  filter(ratings_count > 100) %>%
+  group_by(authors) %>% 
+  summarise(avg_rating = mean(average_rating)) %>% 
+  slice_max(avg_rating, n = 10)
 ```
 
