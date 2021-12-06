@@ -12,10 +12,13 @@ library(tidyverse)
 ```{r}
 card_base        <- read_csv("data/CardBase.csv") %>% 
   janitor::clean_names()
+
 customer_base    <- read_csv("data/CustomerBase.csv") %>% 
   janitor::clean_names()
+
 fraud_base       <- read_csv("data/FraudBase.csv") %>% 
   janitor::clean_names()
+
 transaction_base <- read_csv("data/TransactionBase.csv") %>% 
   janitor::clean_names()
 ```
@@ -49,13 +52,20 @@ hat_observations <- read_csv("data/hat_observations.csv")
 
 hat_obs <- hat_observations %>% 
   separate(observation, into = c("hat_colour", "hat_type"))
+
+hat_obs
 ```
 
 --- 1.2 Question 6
 
 ```{r}
 hat_obs %>%
-  unite(date, day, month, year, sep = "-")
+  unite(date, day, month, year, sep = "-") %>% 
+  filter(hat_type == "beret") %>% 
+  group_by(date) %>% 
+  summarise(total_count = sum(observation_count)) %>% 
+  slice_max(total_count, n = 1)
+  
 ```
 
 --- 2.1 Question 1
@@ -79,8 +89,12 @@ exam_scores
 
 ```{r}
 exam_scores %>% 
-  pivot_longer(exam_Q1:exam_Q10, names_to = "exam_question", values_to = "score") %>% 
-  separate(exam_question, into = c("exam", "exam_question"), sep = "_") %>% 
+  pivot_longer(exam_Q1:exam_Q10, 
+               names_to = "exam_question", 
+               values_to = "score") %>% 
+  separate(exam_question, 
+           into = c("exam", "exam_question"), 
+           sep = "_") %>% 
   select(id, exam_question, score)
 ```
 
