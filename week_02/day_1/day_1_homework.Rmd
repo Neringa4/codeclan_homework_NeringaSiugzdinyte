@@ -1,0 +1,86 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+
+--- 1.1 Question 1
+
+```{r}
+card_base        <- read_csv("data/CardBase.csv") %>% 
+  janitor::clean_names()
+customer_base    <- read_csv("data/CustomerBase.csv") %>% 
+  janitor::clean_names()
+fraud_base       <- read_csv("data/FraudBase.csv") %>% 
+  janitor::clean_names()
+transaction_base <- read_csv("data/TransactionBase.csv") %>% 
+  janitor::clean_names()
+```
+
+--- 1.1 Question 2
+
+```{r}
+left_join(card_base, customer_base, by = "cust_id")
+```
+
+--- 1.1 Question 3
+
+```{r}
+full_join(fraud_base, transaction_base, by = "transaction_id")
+```
+
+The resulting number of rows is the same as in the transaction_base, which means
+that all the fraud_base observations matched up with an observation in the 
+transaction_base.
+
+--- 1.1 Question 4
+
+```{r}
+semi_join(card_base, transaction_base, by = c("card_number" = "credit_card_id"))
+```
+
+--- 1.2 Question 5
+
+```{r}
+hat_observations <- read_csv("data/hat_observations.csv")
+
+hat_obs <- hat_observations %>% 
+  separate(observation, into = c("hat_colour", "hat_type"))
+```
+
+--- 1.2 Question 6
+
+```{r}
+hat_obs %>%
+  unite(date, day, month, year, sep = "-")
+```
+
+--- 2.1 Question 1
+
+```{r}
+all_data <- card_base %>% 
+  inner_join(customer_base, by = "cust_id") %>% 
+  inner_join(transaction_base, by = c("card_number" = "credit_card_id")) %>% 
+  inner_join(fraud_base, by = "transaction_id")
+
+all_data
+```
+
+--- 2.2 Question 2
+
+```{r}
+exam_scores <- read_csv("data/exam_scores.csv")
+
+exam_scores
+```
+
+```{r}
+exam_scores %>% 
+  pivot_longer(exam_Q1:exam_Q10, names_to = "exam_question", values_to = "score") %>% 
+  separate(exam_question, into = c("exam", "exam_question"), sep = "_") %>% 
+  select(id, exam_question, score)
+```
+
