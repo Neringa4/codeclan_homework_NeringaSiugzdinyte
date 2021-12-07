@@ -1,0 +1,115 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+--- Packages
+
+```{r}
+library(tidyverse)
+```
+
+--- Question 1
+
+```{r}
+code_clan_tweets <- read_csv("data/code_clan_tweets.csv")
+code_clan_tweets
+```
+
+```{r}
+glimpse(code_clan_tweets)
+```
+
+```{r}
+nrow(code_clan_tweets)
+```
+
+```{r}
+ncol(code_clan_tweets)
+```
+
+```{r}
+names(code_clan_tweets)
+```
+
+--- Question 2
+
+```{r}
+code_clan_tweets %>% 
+  filter(is_quote == FALSE) %>% 
+  summarise(total_favourites = sum(favorite_count))
+```
+
+--- Question 3
+
+```{r}
+code_clan_tweets %>% 
+  filter(is_quote == FALSE) %>% 
+  group_by(source) %>%
+  summarise(mean_retweets = mean(retweet_count))
+  
+```
+
+--- Question 4
+
+```{r}
+code_clan_tweets %>% 
+  mutate(media_type = coalesce(media_type, "text")) %>% 
+  group_by(media_type) %>% 
+  summarise(total_likes = sum(favorite_count)) %>% 
+  arrange(desc(total_likes))
+```
+
+--- Question 5
+
+```{r}
+code_clan_tweets %>%
+  summarise(mean_characters = mean(display_text_width))
+```
+
+--- Question 6
+
+```{r}
+code_clan_info <- read_csv("data/code_clan_info.csv")
+```
+
+```{r}
+code_clan_status_url <- code_clan_info %>% 
+  select(tweet_id, status_url)
+
+joined_tweet_info <- code_clan_tweets %>% 
+  left_join(code_clan_status_url, by = "tweet_id")
+```
+
+--- Question 7
+
+```{r}
+codeclan_hashtags <- joined_tweet_info %>% 
+  select(tweet_id, hashtags) %>% 
+  drop_na() %>% 
+  mutate(hashtags = str_to_lower(hashtags))
+
+codeclan_hashtags
+```
+
+--- Question 8
+
+```{r}
+str_detect(codeclan_hashtags$hashtags, "c\\(")
+
+str_extract(codeclan_hashtags$hashtags, "(?i)c\\(\"([a-z0-9,\"\\) ]+){6}")
+```
+
+--- Question 9
+
+```{r}
+str_detect(code_clan_tweets$text, "(?i)Edinburgh") %>% 
+  sum()
+```
+
+--- Question 10
+
+```{r}
+str_extract_all(code_clan_tweets$text, "(?i)@[a-z0-9_]+")
+```
+
