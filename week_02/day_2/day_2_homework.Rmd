@@ -97,7 +97,7 @@ codeclan_hashtags
 ```{r}
 str_detect(codeclan_hashtags$hashtags, "c\\(")
 
-str_extract(codeclan_hashtags$hashtags, "(?i)c\\(\"([a-z0-9,\"\\) ]+){6}")
+str_extract(codeclan_hashtags$hashtags, "(?i)c\\(\"[a-z0-9,\"\\) ]+")
 ```
 
 --- Question 9
