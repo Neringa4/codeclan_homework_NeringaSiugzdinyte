@@ -3,3 +3,119 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+--- Packages
+
+```{r}
+library(tidyverse)
+```
+
+--- Question 1
+
+```{r}
+weather_forecast <- list(
+  "Thursday" = list(temperature    = "7°", 
+                    chance_of_rain = "25%", 
+                    wind_speed     = "7 km/h"),
+  
+  "Friday"   = list(temperature    = "6°", 
+                    chance_of_rain = "80%", 
+                    wind_speed     = "7 km/h"),
+  
+  "Saturday" = list(temperature    = "10°", 
+                    chance_of_rain = "55%", 
+                    wind_speed     = "9 km/h")
+)
+
+weather_forecast
+```
+
+--- Question 2
+
+i.
+
+```{r}
+weather_forecast$Thursday$chance_of_rain
+```
+
+ii.
+
+```{r}
+weather_forecast$Friday$wind_speed
+```
+
+iii.
+
+```{r}
+weather_forecast$Thursday$temperature
+```
+
+--- Question 3
+
+```{r}
+temp_list <- c(9, 10, 10, 11, 9, 8, 7, 8, 7, 9, 9, 6, 5, 5)
+
+forecast_14 <- 
+  matrix(temp_list, nrow = 2, ncol = 7, byrow = TRUE)
+
+rownames(forecast_14) <- c("week_1", "week_2")
+colnames(forecast_14) <- c("Monday", "Tuesday", "Wednesday", 
+                           "Thursday", "Friday", "Saturday", "Sunday")
+  
+forecast_14
+```
+
+--- Question 4
+
+i. 
+
+```{r}
+forecast_14[2, 3]
+```
+
+ii.
+
+```{r}
+forecast_14[2,]
+```
+
+iii.
+
+```{r}
+forecast_14[c(1, 2), c(1, 3, 5)]
+```
+
+--- Question 5
+
+```{r}
+fnc_q_5 <- function(input){
+  if(is.character(input)){
+    return(str_c("The answer is: ", input))
+    
+  } else {
+    
+    if(is.numeric(input)){
+      
+      if(input < 10){
+        return(input)
+        
+      } else {
+        return(input / 10)
+      }
+    } else {
+      return("Invalid input")
+    }
+  }
+}
+
+fnc_q_5("Correct")
+fnc_q_5(5)
+fnc_q_5(120)
+fnc_q_5(TRUE)
+```
+
+--- Question 6
+
+```{r}
+
+```
+
