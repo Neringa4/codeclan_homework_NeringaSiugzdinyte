@@ -116,6 +116,27 @@ fnc_q_5(TRUE)
 --- Question 6
 
 ```{r}
+vector_1 <- c(1, 3, 5, 7, 9)
+vector_2 <- c(2, 4, 6, 8)
+vector_3 <- c(1, 9, 5, 7, 3)
+vector_4 <- c(2, 4, 6, 8)
+```
 
+```{r}
+check_vectors <- function(x, y){
+  if(identical(x, y)){
+    return("Exactly the same")
+  } else {
+    if(identical(sort(x),sort(y))){
+      return("The same")
+    } else {
+      return("Different")
+    }
+  }
+}
+
+check_vectors(vector_2, vector_4)
+check_vectors(vector_1, vector_3)
+check_vectors(vector_1, vector_2)
 ```
 
