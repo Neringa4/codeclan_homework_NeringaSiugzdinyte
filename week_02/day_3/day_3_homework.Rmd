@@ -160,6 +160,17 @@ multiplication_matrix
 --- Question 8
 
 ```{r}
+vector <- c(3, 1, 7, 4, 2)
+
+text_art_hist <- function(vector){
+  for(i in vector){
+    cat("|")
+    cat(rep("*", i))
+    cat("\n")
+  }
+}
+
+text_art_hist(vector)
 
 ```
 
