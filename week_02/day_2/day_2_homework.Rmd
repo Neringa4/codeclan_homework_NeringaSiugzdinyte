@@ -67,6 +67,16 @@ code_clan_tweets %>%
   summarise(mean_characters = mean(display_text_width))
 ```
 
+OR
+
+```{r}
+code_clan_tweets %>% 
+  mutate(count_str_length = str_length(text), .before = text) %>% 
+  select(count_str_length, display_text_width) %>% 
+  summarise(mean_str_length = mean(count_str_length),
+            mean_disp_width = mean(display_text_width))
+```
+
 --- Question 6
 
 ```{r}
@@ -98,6 +108,16 @@ codeclan_hashtags
 str_detect(codeclan_hashtags$hashtags, "c\\(")
 
 str_extract(codeclan_hashtags$hashtags, "(?i)c\\(\"[a-z0-9,\"\\) ]+")
+```
+
+OR
+
+```{r}
+hashtags_multiple <- codeclan_hashtags %>% 
+  mutate(first_letters = str_sub(hashtags, 1, 2)) %>%
+  filter(str_detect(first_letters, "c\\("))
+
+hashtags_multiple
 ```
 
 --- Question 9
