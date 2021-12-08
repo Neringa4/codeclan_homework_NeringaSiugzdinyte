@@ -140,3 +140,26 @@ check_vectors(vector_1, vector_3)
 check_vectors(vector_1, vector_2)
 ```
 
+--- Question 7
+
+```{r}
+multiplication_matrix <- matrix(nrow = 12, ncol = 12)
+
+num_rows <- nrow(multiplication_matrix)
+num_cols <- ncol(multiplication_matrix)
+
+for(i_row in 1:num_rows){
+  for(i_col in 1:num_cols){
+    multiplication_matrix[i_row, i_col] <- i_row * i_col
+  }
+}
+
+multiplication_matrix
+```
+
+--- Question 8
+
+```{r}
+
+```
+
