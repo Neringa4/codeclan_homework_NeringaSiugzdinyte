@@ -171,6 +171,5 @@ text_art_hist <- function(vector){
 }
 
 text_art_hist(vector)
-
 ```
 
