@@ -124,7 +124,7 @@ FROM (SELECT
       ON t.id = e.team_id 
       GROUP BY t."name", t.id
     ) t
-WHERE total_day_charge > 5000
+WHERE total_day_charge > 5000;
 
 
 /* Extension */
@@ -133,7 +133,7 @@ WHERE total_day_charge > 5000
 
 SELECT
     count(DISTINCT employee_id)
-FROM employees_committees 
+FROM employees_committees;
 
 /* Q6 */
 
@@ -141,8 +141,7 @@ SELECT
     count(e.id)
 FROM employees AS e LEFT JOIN employees_committees AS ec 
 ON e.id = ec.employee_id 
-WHERE ec.committee_id IS NULL
-
+WHERE ec.committee_id IS NULL;
 
 
 
