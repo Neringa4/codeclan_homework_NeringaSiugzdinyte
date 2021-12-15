@@ -168,12 +168,14 @@ SELECT
     salary / AVG(salary) OVER (PARTITION BY department) AS salary_raito,
     fte_hours / AVG(fte_hours) OVER (PARTITION BY department) AS fte_hours_ratio
 FROM employees 
-WHERE department = (SELECT 
+WHERE department = (SELECT
                         department
                     FROM employees 
                     GROUP BY department 
                     ORDER BY count(id) DESC
-                    LIMIT 1);
+                    FETCH FIRST 1 ROW WITH TIES
+);
+
                 
 -- Q2
                 
@@ -215,6 +217,55 @@ GROUP BY salary_class;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
 
 
 
