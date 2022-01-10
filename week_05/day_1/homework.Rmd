@@ -1,0 +1,130 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(scales)
+library(CodeClanData)
+```
+
+
+# MVP
+
+## 2.1 Part 1
+
+### Question 1
+
+```{r}
+ggplot(clean_names(qb_revenue_breakdown),
+       aes(x = year, y = revenue, fill = product)) +
+  geom_col() +
+  labs(
+    x = "\nYear",
+    y = "Revenue\n",
+    fill = "Product\n",
+    title = "Sources of Revenue in 2018 and 2019\n"
+  ) +
+  scale_y_continuous(labels = dollar_format(prefix = "£")) +
+  scale_fill_manual(values = col_scheme)
+```
+
+### Question 2
+
+```{r}
+qb_monthly_sales %>% 
+  clean_names() %>% 
+  filter(cashflow == "Kwikbit Unit 1 Sales") %>% 
+  
+  ggplot(aes(x = date, y = amount)) +
+  geom_line() +
+  labs(
+    x = "\nMonth",
+    y = "Sales\n",
+    title = "Monthly KwikBit Unit 1 Sales",
+    subtitle = "Showing data from the last 12 months\n"
+  ) +
+  scale_y_continuous(labels = dollar_format(prefix = "£"))
+```
+
+### Question 3
+
+```{r}
+qb_monthly_sales %>% 
+  clean_names() %>% 
+  filter(cashflow != "Kwikbit Unit 1 Sales") %>% 
+  
+ggplot(aes(x = date, y = amount, colour = cashflow)) +
+  geom_line() +
+  labs(
+    x = "\nMonth",
+    y = "Cost / Revenue\n",
+    colour = "",
+    title = "Monthly Revenue and Costs",
+    subtitle = "Showing data from the last 12 months\n"
+  ) +
+  scale_y_continuous(labels = dollar_format(prefix = "£")) +
+  scale_colour_manual(values = col_scheme)
+```
+
+### Question 4
+
+```{r}
+ggplot(clean_names(qb_competitors),
+       aes(x = year, y = revenue, fill = company)) +
+  geom_area() +
+  labs(
+    x = "\nYear",
+    y = "Revenue\n",
+    fill = "",
+    title = "Annual Competitor Revenue\n"
+  ) +
+  scale_y_continuous(labels = dollar_format(prefix = "£")) +
+  scale_fill_manual(values = col_scheme)
+```
+
+### Question 5
+
+```{r}
+ggplot(clean_names(qb_competitors),
+       aes(x = year, y = revenue, colour = company)) +
+  geom_line() +
+  geom_point() +
+  labs(
+    x = "\nYear",
+    y = "Revenue\n",
+    colour = "",
+    title = "Annual Competitor Revenue\n"
+  ) +
+  scale_y_continuous(labels = dollar_format(prefix = "£")) +
+  scale_colour_manual(values = col_scheme)
+```
+
+### Question 6
+
+```{r}
+qb_device_data %>% 
+  unite("time", hours:mins, sep = ":") %>% 
+  mutate(time = as.POSIXct(time, format = "%H:%M")) %>% 
+
+ggplot(aes(x = time, y = counts, colour = id)) +
+  geom_line(show.legend = FALSE) +
+  scale_x_datetime(labels = time_format(format = "%H:%M")) +
+  scale_y_continuous(labels = comma) +
+  facet_grid(id ~ device,
+             scales = "free_y") +
+  labs(
+    x = "\nTime",
+    y = "Steps\n",
+    title = "Step Count for Qikbit1 vs Competitors\n"
+  ) +
+  scale_colour_manual(values = col_scheme)
+```
+
+```{r}
+col_scheme <- c("#E89FE9", "#50434F", "#B6A7B5", "#F9A472", "#BD7040")
+```
+
