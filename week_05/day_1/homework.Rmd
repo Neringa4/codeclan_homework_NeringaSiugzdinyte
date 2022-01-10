@@ -11,6 +11,9 @@ library(scales)
 library(CodeClanData)
 ```
 
+```{r}
+col_scheme <- c("#E89FE9", "#50434F", "#B6A7B5", "#F9A472", "#BD7040")
+```
 
 # MVP
 
@@ -29,7 +32,8 @@ ggplot(clean_names(qb_revenue_breakdown),
     title = "Sources of Revenue in 2018 and 2019\n"
   ) +
   scale_y_continuous(labels = dollar_format(prefix = "£")) +
-  scale_fill_manual(values = col_scheme)
+  scale_fill_manual(values = col_scheme) +
+  theme_light()
 ```
 
 ### Question 2
@@ -47,7 +51,8 @@ qb_monthly_sales %>%
     title = "Monthly KwikBit Unit 1 Sales",
     subtitle = "Showing data from the last 12 months\n"
   ) +
-  scale_y_continuous(labels = dollar_format(prefix = "£"))
+  scale_y_continuous(labels = dollar_format(prefix = "£")) +
+  theme_light()
 ```
 
 ### Question 3
@@ -67,7 +72,8 @@ ggplot(aes(x = date, y = amount, colour = cashflow)) +
     subtitle = "Showing data from the last 12 months\n"
   ) +
   scale_y_continuous(labels = dollar_format(prefix = "£")) +
-  scale_colour_manual(values = col_scheme)
+  scale_colour_manual(values = col_scheme) +
+  theme_light()
 ```
 
 ### Question 4
@@ -83,7 +89,8 @@ ggplot(clean_names(qb_competitors),
     title = "Annual Competitor Revenue\n"
   ) +
   scale_y_continuous(labels = dollar_format(prefix = "£")) +
-  scale_fill_manual(values = col_scheme)
+  scale_fill_manual(values = col_scheme) +
+  theme_light()
 ```
 
 ### Question 5
@@ -100,7 +107,8 @@ ggplot(clean_names(qb_competitors),
     title = "Annual Competitor Revenue\n"
   ) +
   scale_y_continuous(labels = dollar_format(prefix = "£")) +
-  scale_colour_manual(values = col_scheme)
+  scale_colour_manual(values = col_scheme) +
+  theme_light()
 ```
 
 ### Question 6
@@ -121,10 +129,6 @@ ggplot(aes(x = time, y = counts, colour = id)) +
     y = "Steps\n",
     title = "Step Count for Qikbit1 vs Competitors\n"
   ) +
-  scale_colour_manual(values = col_scheme)
+  scale_colour_manual(values = col_scheme) +
+  theme_light()
 ```
-
-```{r}
-col_scheme <- c("#E89FE9", "#50434F", "#B6A7B5", "#F9A472", "#BD7040")
-```
-
