@@ -47,7 +47,8 @@ ggplot(backpack,
   scale_y_continuous(breaks = c(0, 2, 4, 6, 8, 10, 12)) +
   scale_x_continuous(breaks = c(0, 5, 10, 15, 20, 25, 30, 35)) +
   theme_minimal() +
-  theme(strip.text = element_text(size = 11))
+  theme(strip.text = element_text(size = 11),
+        plot.title = element_text(hjust = 0.45))
 ```
 
 The general backpack distribution is very similar for both sexes. The 
@@ -88,7 +89,47 @@ ggplot(backpack,
 Again, there appears to be no distinguishable relationship between backpack and 
 body weights of student males or females.
 
-```{r}
+## Question 6
 
+```{r}
+backpack %>% 
+  mutate(back_problems = as.logical(back_problems)) %>% 
+  group_by(back_problems) %>% 
+  mutate(count = n()) %>% 
+  
+ggplot(aes(1, fill = back_problems)) +
+  geom_bar(position = "stack") +
+  geom_text(aes(y = count/5, label = count),
+            colour = "white", vjust = -6.5) +
+  theme(axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        panel.background = element_blank(),
+        plot.title = element_text(hjust = 0.5)) +
+  labs(fill = "Back Problems",
+       title = "Proportion of Students With Back Pain")
 ```
 
+In this data set 32% of students have reported back pain.
+
+
+```{r}
+backpack %>% 
+  mutate(back_problems = as.logical(back_problems)) %>% 
+  group_by(back_problems, sex) %>% 
+  mutate(count = n()) %>% 
+  
+ggplot(aes(x = sex, fill = back_problems)) +
+  geom_bar(position = "fill") +
+  geom_text(aes(y = count/100, label = count),
+            colour = "white") +
+  labs(fill = "Back Problems",
+       title = "Proportion of Students With Back Pain") +
+  theme_minimal() +
+  theme(axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(hjust = 0.5))
+```
+
+44% of females report back pain, and only 18% of males.
