@@ -58,17 +58,37 @@ most common backpack weight for females is 10lb and 11lb for males.
 ```{r}
 ggplot(backpack,
        aes(x = body_weight, y = backpack_weight)) +
-  geom_point() +
+  geom_point(colour = "Steelblue") +
   labs(
     x = "\nBody Weight (lb)",
     y = "Backpack Weight (lb)\n",
     title = "Students' Body Weight vs Backpack Weight\n"
   ) +
   theme_minimal()
-  
 ```
 
 There does not seem to be a clear relationship between students' body weight and
 their backpack weight.
 
 ## Question 5
+
+```{r}
+ggplot(backpack,
+       aes(x = body_weight, y = backpack_weight, colour = sex)) +
+  geom_point() +
+  labs(
+    x = "\nBody Weight (lb)",
+    y = "Backpack Weight (lb)\n",
+    colour = "Sex",
+    title = "Students' Body Weight vs Backpack Weight\n"
+  ) +
+  theme_minimal()
+```
+
+Again, there appears to be no distinguishable relationship between backpack and 
+body weights of student males or females.
+
+```{r}
+
+```
+
