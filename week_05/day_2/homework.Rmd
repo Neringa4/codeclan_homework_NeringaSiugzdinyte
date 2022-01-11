@@ -112,6 +112,8 @@ ggplot(aes(1, fill = back_problems)) +
 
 In this data set 32% of students have reported back pain.
 
+## Question 7
+
 
 ```{r}
 backpack %>% 
