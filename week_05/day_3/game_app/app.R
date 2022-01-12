@@ -5,6 +5,7 @@ library(shinythemes)
 
 publishers <- game_sales %>% 
   distinct(publisher) %>% 
+  arrange(publisher) %>% 
   pull()
 
 ui <- fluidPage(
@@ -40,7 +41,9 @@ ui <- fluidPage(
     column(
       width = 1,
     )
-  )
+  ),
+  
+  HTML("<br>")
   
 )
 
