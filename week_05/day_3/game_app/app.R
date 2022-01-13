@@ -12,7 +12,7 @@ ui <- fluidPage(
   
   theme = shinytheme("superhero"),
   
-  titlePanel(h1("Average Game Scores Over Time",
+  titlePanel(h1("Average Game Ratings Over Time",
                 align = "center")),
   
   HTML("<br>"),
@@ -67,7 +67,7 @@ server <- function(input, output) {
            y = "Average Score\n",
            colour = "",
            title = "") +
-      scale_colour_discrete(labels = c("Critic Score", "User Score")) +
+      scale_colour_discrete(labels = c("Critic Rating", "User Rating")) +
       ylim(0, 100) +
       theme_light() +
       theme(text = element_text(size = 20))
