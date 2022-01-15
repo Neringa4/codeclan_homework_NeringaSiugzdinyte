@@ -21,7 +21,7 @@ ui <- fluidPage(
     selectInput(
       inputId = "publisher",
       label = h3("Publisher"),
-      choices = publishers
+      choices = c("All", publishers)
     ),
     align = "center",
     style = "font-size:15px;"
@@ -49,7 +49,27 @@ server <- function(input, output) {
   
   output$games_Plot <- renderPlot({
     
-    game_sales %>%
+    if(input$publisher == "All"){
+      game_sales %>%
+        mutate(user_score = user_score*10) %>% 
+        pivot_longer(critic_score:user_score, 
+                     names_to = "score_type", 
+                     values_to = "score") %>% 
+        group_by(year_of_release, score_type) %>% 
+        summarise(avg_score = mean(score)) %>%
+        
+        ggplot(aes(x = year_of_release, y = avg_score, colour = score_type)) +
+        geom_line(size = 1) +
+        labs(x = "\nYear of Release",
+             y = "Average Score\n",
+             colour = "",
+             title = "") +
+        scale_colour_discrete(labels = c("Critic Rating", "User Rating")) +
+        ylim(0, 100) +
+        theme_light() +
+        theme(text = element_text(size = 20))
+    } else {
+      game_sales %>%
       mutate(user_score = user_score*10) %>% 
       pivot_longer(critic_score:user_score, 
                    names_to = "score_type", 
@@ -68,7 +88,7 @@ server <- function(input, output) {
       ylim(0, 100) +
       theme_light() +
       theme(text = element_text(size = 20))
-    
+    }
   })
 }
 
