@@ -2,6 +2,11 @@ server <- function(input, output) {
   
   output$games_Plot <- renderPlot({
     
+    # I chose a line plot to show how the game ratings have changed over time 
+    # using 3 different filters. I then added an "All" option for each of these
+    # so that the user can choose what to filter by. This is more useful, since 
+    # filtering by too many variables does not create an informative plot.
+    
     if(input$publisher == "All" & input$genre == "All" & input$platform == "All"){
       game_sales %>%
         mutate(user_score = user_score*10) %>% 
@@ -175,6 +180,9 @@ server <- function(input, output) {
         theme(text = element_text(size = 20))
     }
   })
+  
+  
+  # I created a table that shows top 10 games based on the user's filters.
   
   output$games_table <- renderTable({
     
