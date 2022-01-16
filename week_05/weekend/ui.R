@@ -9,23 +9,23 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-        selectInput(
-          inputId = "publisher",
-          label = h3("Publisher"),
-          choices = c("All", publishers)
-        ),
-        selectInput(
-          inputId = "genre",
-          label = h3("Genre"),
-          choices = c("All", genres)
-        ),
-        selectInput(
-          inputId = "platform",
-          label = h3("Platform"),
-          choices = c("All" ,platforms)
-        ),
-        align = "center",
-        style = "font-size:17px;"
+      selectInput(
+        inputId = "publisher",
+        label = h3("Publisher"),
+        choices = c("All", publishers)
+      ),
+      selectInput(
+        inputId = "genre",
+        label = h3("Genre"),
+        choices = c("All", genres)
+      ),
+      selectInput(
+        inputId = "platform",
+        label = h3("Platform"),
+        choices = c("All" ,platforms)
+      ),
+      align = "center",
+      style = "font-size:17px;"
     ),
     
     mainPanel(
