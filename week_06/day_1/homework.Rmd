@@ -73,3 +73,12 @@ crew.
 ## 1.2 Probability Consolidation Questions
 
 ### Question 1
+
+```{r}
+one_die <- rolldie(1)
+prob_one_die <- one_die %>% 
+  summarise(prob = sum(X1 < 5) / n())
+prob_one_die
+```
+
+### Question 2
