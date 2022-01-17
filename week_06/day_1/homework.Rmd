@@ -1,0 +1,75 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# MVP
+
+## 1.1 The Titanic
+
+```{r}
+library(prob)
+library(gtools)
+library(tidyverse)
+```
+
+```{r}
+titanic <- read_csv("data/titanic.csv")
+```
+
+```{r}
+titanic <- titanic %>% 
+  mutate(crew = if_else(str_detect(class, "crew") | 
+                          str_detect(class, "staff"),
+                        TRUE,
+                        FALSE))
+```
+
+prob(survived | crew)
+
+```{r}
+prob_crew <- titanic %>%
+  summarise(prob = sum(crew == TRUE) / n())
+prob_crew
+```
+
+```{r}
+prob_survived_crew <- titanic %>%
+  filter(crew == TRUE, survived == "yes") %>% 
+  summarise(prob = n() / nrow(titanic))
+prob_survived_crew
+```
+
+```{r}
+prob_survived_given_crew = prob_survived_crew / prob_crew
+prob_survived_given_crew
+```
+
+prob(survived | passenger)
+
+```{r}
+prob_passenger <- titanic %>%
+  summarise(prob = sum(crew == FALSE) / n())
+prob_passenger
+```
+
+```{r}
+prob_survived_passenger <- titanic %>%
+  filter(crew == FALSE, survived == "yes") %>% 
+  summarise(prob = n() / nrow(titanic))
+prob_survived_passenger
+```
+
+```{r}
+prob_survived_given_passenger = prob_survived_passenger / prob_passenger
+prob_survived_given_passenger
+```
+
+The probability of surviving given you were part of the crew = 0.237 OR 24%
+The probability of surviving given you were a passenger = 0.380 OR 38%
+This means that the passengers of Titanic were more likely to survive than the 
+crew.
+
+## 1.2 Probability Consolidation Questions
+
+### Question 1
