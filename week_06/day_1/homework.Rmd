@@ -123,3 +123,13 @@ prob_total_5_6_7
 iii. 
 
 The assumption is that every sample point is as likely as another.
+
+### Question 4
+
+```{r}
+s_heights <- as.tibble(permutations(n = 5, r = 5, repeats.allowed = FALSE))
+
+prob_desc_heights <- 1 / nrow(s_heights)
+prob_desc_heights
+```
+
