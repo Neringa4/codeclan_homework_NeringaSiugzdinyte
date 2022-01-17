@@ -133,3 +133,23 @@ prob_desc_heights <- 1 / nrow(s_heights)
 prob_desc_heights
 ```
 
+### Question 5
+
+i.
+
+```{r}
+s_six_dice_perm <- as.tibble(permutations(n = 6, r = 6, repeats.allowed = TRUE))
+
+prob_desc_six_dice <- 1 / nrow(s_six_dice_perm)
+format(prob_desc_six_dice, scientific = F)
+```
+
+ii.
+
+```{r}
+s_six_dice_comb <- as.tibble(combinations(n = 6, r = 6, repeats.allowed = TRUE))
+
+prob_each_num_six_dice <- 1 / nrow(s_six_dice_comb)
+prob_each_num_six_dice
+```
+
