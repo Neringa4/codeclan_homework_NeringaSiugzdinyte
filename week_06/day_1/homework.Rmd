@@ -75,10 +75,34 @@ crew.
 ### Question 1
 
 ```{r}
-one_die <- rolldie(1)
-prob_one_die <- one_die %>% 
+s_one_die <- rolldie(1)
+prob_one_die <- s_one_die %>% 
   summarise(prob = sum(X1 < 5) / n())
 prob_one_die
 ```
 
+The probability of rolling less than 5 is 0.666667 OR 2/3
+
 ### Question 2
+
+```{r}
+s_three_die <- rolldie(3) %>% 
+  nrow()
+s_three_die
+```
+
+OR 
+
+```{r}
+s_three_die <- 6^3
+s_three_die
+```
+
+There are 216 outcomes.
+
+### Question 3
+
+```{r}
+
+```
+
