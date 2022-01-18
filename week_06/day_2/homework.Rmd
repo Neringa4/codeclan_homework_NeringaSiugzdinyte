@@ -1,0 +1,104 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+
+# MVP
+
+## Question 1
+
+```{r}
+phone_data <- read_csv("data/20190928-items.csv") %>% 
+  janitor::clean_names()
+```
+
+```{r}
+glimpse(phone_data)
+```
+
+## Question 2
+
+```{r}
+phone_data %>% 
+  group_by(brand) %>% 
+  summarise(count = n()) %>% 
+  slice_max(count, n = 1)
+```
+
+### Question 3
+
+```{r}
+samsung_mean_sd <- phone_data %>% 
+  summarise(mean = mean(rating),
+            sd = sd(rating))
+```
+
+```{r}
+samsung_data <- phone_data %>% 
+  filter(brand == "Samsung")
+
+samsung_data %>% 
+  ggplot(aes(x = rating)) +
+  geom_histogram(aes(y = ..density..),
+                 colour = "white") +
+  stat_function(fun = dnorm,
+                args = list(mean = phone_mean_sd$mean, 
+                            sd = phone_mean_sd$sd),
+                colour = "blue")
+```
+
+Generally the normal distribution line fits the plot quite well, but there are 
+a few ratings in the centre and the ends with a really high density, that don't 
+fit the normal distribution.
+
+## Question 4
+
+Within 1 SD
+
+```{r}
+samsung_data %>%
+  filter(rating >= samsung_mean_sd$mean - samsung_mean_sd$sd,
+         rating <= samsung_mean_sd$mean + samsung_mean_sd$sd) %>% 
+  summarise(within_1_sd = n() / nrow(samsung_data) * 100)
+```
+
+Within 2 SD
+
+```{r}
+samsung_data %>%
+  filter(rating >= samsung_mean_sd$mean - samsung_mean_sd$sd * 2,
+         rating <= samsung_mean_sd$mean + samsung_mean_sd$sd * 2) %>% 
+  summarise(within_2_sd = n() / nrow(samsung_data) * 100)
+```
+
+Within 3 SD
+
+```{r}
+samsung_data %>%
+  filter(rating >= samsung_mean_sd$mean - samsung_mean_sd$sd * 3,
+         rating <= samsung_mean_sd$mean + samsung_mean_sd$sd * 3) %>% 
+  summarise(within_3_sd = n() / nrow(samsung_data) * 100)
+```
+
+The proportion of ratings within 1 sd is 77%, compared to 68% in a normal 
+distribution. Within 2 sd it is 92% compared to 95% and within 3 sd it is 98% 
+compared to 99.7% in the normal distribution. This shows that the ratings are
+more concentrated around the mean in this data, compared to a normal 
+distribution.
+
+# Extension
+
+```{r}
+qqnorm(samsung_data$rating)
+qqline(samsung_data$rating)
+```
+
+A "quantile-quantile plot" plots our data against theoretical data that has a 
+normal distribution. If our data also has a normal distribution, we would expect
+to see a straight line. This qq plot shows that our data is "heavy tailed",
+meaning that it has more large or extreme values than data with a normal
+distribution would have. 
