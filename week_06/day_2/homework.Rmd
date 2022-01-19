@@ -35,6 +35,7 @@ phone_data %>%
 samsung_mean_sd <- phone_data %>% 
   summarise(mean = mean(rating),
             sd = sd(rating))
+samsung_mean_sd
 ```
 
 ```{r}
@@ -46,8 +47,8 @@ samsung_data %>%
   geom_histogram(aes(y = ..density..),
                  colour = "white") +
   stat_function(fun = dnorm,
-                args = list(mean = phone_mean_sd$mean, 
-                            sd = phone_mean_sd$sd),
+                args = list(mean = samsung_mean_sd$mean, 
+                            sd = samsung_mean_sd$sd),
                 colour = "blue")
 ```
 
