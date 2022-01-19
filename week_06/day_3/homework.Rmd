@@ -1,0 +1,210 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(infer)
+```
+
+# MVP
+
+## Task 1
+
+```{r}
+ames <- read_csv("data/ames.csv") %>%
+  clean_names()
+```
+
+```{r}
+glimpse(ames)
+```
+
+## Task 2
+
+```{r}
+ames %>% 
+  ggplot(aes(x = lot_area)) +
+  geom_histogram()
+```
+
+The distribution is right skewed. 
+
+## Task 3
+
+```{r}
+bootstrap_resample <- ames %>% 
+  specify(response = lot_area) %>% 
+  generate(reps = 10000, type = "bootstrap") %>% 
+  calculate(stat = "mean")
+```
+
+```{r}
+bootstrap_resample %>% 
+  visualise(bins = 30)
+```
+
+## Task 4
+
+```{r}
+ci_95 <- bootstrap_resample %>% 
+  get_ci(level = 0.95, type = "percentile")
+ci_95
+```
+
+```{r}
+bootstrap_resample %>% 
+  visualise(bins = 30) +
+  shade_ci(endpoints = ci_95)
+```
+
+## Task 5
+
+```{r}
+ci_99 <- bootstrap_resample %>% 
+  get_ci(level = 0.99, type = "percentile")
+ci_99
+```
+
+```{r}
+bootstrap_resample %>% 
+  visualise(bins = 30) +
+  shade_ci(endpoints = ci_99)
+```
+
+The 99% CI is broader than the 95% CI. This makes sense because to decrease 
+uncertainty, you have to increase your range of possible values.
+
+## Task 6
+
+```{r}
+bootstrap_resample %>% 
+  summarise(point_estimate = mean(stat))
+```
+
+# Extension
+
+## Task 1
+
+```{r}
+ames_1920 <- ames %>% 
+  mutate(before_1920 = if_else(year_built < 1920,
+                               TRUE,
+                               FALSE))
+ames_1920
+```
+
+200 reps
+
+```{r}
+bootstrap_resample_1920 <- ames_1920 %>% 
+  specify(response = before_1920, success = "TRUE") %>% 
+  generate(reps = 200, type = "bootstrap") %>% 
+  calculate(stat = "prop")
+
+ci_95_1920 <- bootstrap_resample_1920 %>% 
+  get_ci(level = 0.95, type = "percentile")
+ci_95_1920
+
+bootstrap_resample_1920 %>% 
+  summarise(point_estimate = mean(stat))
+
+ci_95_1920$upper_ci - ci_95_1920$lower_ci
+```
+
+1000 reps
+
+```{r}
+bootstrap_resample_1920 <- ames_1920 %>% 
+  specify(response = before_1920, success = "TRUE") %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "prop")
+
+ci_95_1920 <- bootstrap_resample_1920 %>% 
+  get_ci(level = 0.95, type = "percentile")
+ci_95_1920
+
+bootstrap_resample_1920 %>% 
+  summarise(point_estimate = mean(stat))
+
+ci_95_1920$upper_ci - ci_95_1920$lower_ci
+```
+
+5000 reps
+
+```{r}
+bootstrap_resample_1920 <- ames_1920 %>% 
+  specify(response = before_1920, success = "TRUE") %>%
+  generate(reps = 5000, type = "bootstrap") %>% 
+  calculate(stat = "prop")
+
+ci_95_1920 <- bootstrap_resample_1920 %>% 
+  get_ci(level = 0.95, type = "percentile")
+ci_95_1920
+
+bootstrap_resample_1920 %>% 
+  summarise(point_estimate = mean(stat))
+
+ci_95_1920$upper_ci - ci_95_1920$lower_ci
+```
+
+10000 reps
+
+```{r}
+bootstrap_resample_1920 <- ames_1920 %>% 
+  specify(response = before_1920, success = "TRUE") %>%
+  generate(reps = 10000, type = "bootstrap") %>% 
+  calculate(stat = "prop")
+
+ci_95_1920 <- bootstrap_resample_1920 %>% 
+  get_ci(level = 0.95, type = "percentile")
+ci_95_1920
+
+bootstrap_resample_1920 %>% 
+  summarise(point_estimate = mean(stat))
+
+ci_95_1920$upper_ci - ci_95_1920$lower_ci
+```
+
+25000 reps
+
+```{r}
+bootstrap_resample_1920 <- ames_1920 %>% 
+  specify(response = before_1920, success = "TRUE") %>%
+  generate(reps = 25000, type = "bootstrap") %>% 
+  calculate(stat = "prop")
+
+ci_95_1920 <- bootstrap_resample_1920 %>% 
+  get_ci(level = 0.95, type = "percentile")
+ci_95_1920
+
+bootstrap_resample_1920 %>% 
+  summarise(point_estimate = mean(stat))
+
+ci_95_1920$upper_ci - ci_95_1920$lower_ci
+```
+
+50000 reps
+
+```{r}
+bootstrap_resample_1920 <- ames_1920 %>% 
+  specify(response = before_1920, success = "TRUE") %>%
+  generate(reps = 50000, type = "bootstrap") %>% 
+  calculate(stat = "prop")
+
+ci_95_1920 <- bootstrap_resample_1920 %>% 
+  get_ci(level = 0.95, type = "percentile")
+ci_95_1920
+
+bootstrap_resample_1920 %>% 
+  summarise(point_estimate = mean(stat))
+
+ci_95_1920$upper_ci - ci_95_1920$lower_ci
+```
+
+The number of reps used certainly matters. Using only 200 reps, the CI varies
+quite significantly. The more reps used, the more consistent the CI and the 
+point estimate. Although 25,000 and 50,000 reps produce virtually the same 
+results as 10'000 reps, so there is no need to go that high.
