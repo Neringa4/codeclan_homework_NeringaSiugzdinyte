@@ -171,3 +171,50 @@ greater than 5%.
 
 ### Question 1
 
+Test:
+
+I would use the single-sample proportion hypothesis test, using the "draw" 
+method to generate the null distribution.
+
+Hypotheses:
+
+Null hypothesis: 40% of people in the town have heard of the coffee shop.
+Alternative hypothesis: The number of people in the town that have heard of the 
+coffee shop is greater than 40%
+
+H0: π_aware_of_shop = 40%
+Ha: π_aware_of_shop > 40%
+
+### Question 2
+
+Test:
+
+I would use an independent two-sample hypothesis test, using the "permutation"
+method to generate the null distribution
+
+Hypotheses:
+
+Null hypothesis: The CTR rate is the same regardless of where the banner is 
+positioned.
+Alternative hypothesis: The CTR rate is higher if banner is positioned at the
+top of the page.
+
+H0: ctr_group_b - ctr_group_a = 0
+Ha: ctr_group_b - ctr_group_a > 0
+
+### Question 3
+
+Test:
+
+I would use the single-sample mean hypothesis test, using the "bootstrap" method
+to generate the null distribution.
+
+Hypotheses:
+
+Null hypothesis: The manufacturing process has not drifted, and the mean width 
+of the part is 145mm.
+Alternative hypothesis: The mean width of parts differs significantly from 145mm
+i.e. the manufacturing process has drifted.
+
+H0: µ_width = 145
+Ha: µ_width =/= 145
