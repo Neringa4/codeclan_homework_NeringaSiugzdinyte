@@ -3,3 +3,171 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+```{r}
+library(tidyverse)
+library(janitor)
+library(infer)
+data(msleep)
+```
+
+# MVP
+
+## 1.1 Hypothesis Testing - Practical
+
+### Question 1
+
+```{r}
+glimpse(msleep)
+```
+ 
+### Question 2
+
+Hypotheses:
+
+H0: µ_sleep_total = 7
+Ha: µ_sleep_total =/= 7
+
+α = 0.05
+
+```{r}
+observed_stat <- msleep %>% 
+  specify(response = sleep_total) %>% 
+  calculate(stat = "mean")
+observed_stat
+```
+
+```{r}
+null_distribution <- msleep %>% 
+  specify(response = sleep_total) %>% 
+  hypothesise(null = "point", mu = 7) %>% 
+  generate(reps = 10000, type = "bootstrap") %>% 
+  calculate(stat = "mean")
+null_distribution
+```
+
+```{r}
+null_distribution %>% 
+  visualise(bins = 30) +
+  shade_pvalue(obs_stat = observed_stat,
+               direction = "both")
+```
+
+```{r}
+p_value <- null_distribution %>% 
+  get_pvalue(obs_stat = observed_stat,
+             direction = "both")
+p_value
+```
+
+The p_value is well below the significance level of 0.05, so the null hypothesis
+is successfully rejected.
+
+This means there is enough evidence to say that the sleep_total of animals 
+differs from the 7 hours of "jabberwockies".
+
+### Question 3
+
+Hypotheses:
+
+H0: µ_omnivore_sleep_total - µ_herbivore_sleep_total = 0
+Ha: µ_omnivore_sleep_total - µ_herbivore_sleep_total > 0
+
+α = 0.05
+
+```{r}
+sub_msleep <- msleep %>% 
+  filter(vore %in% c("omni", "herbi"))
+```
+
+```{r}
+observed_stat <- sub_msleep %>% 
+  specify(sleep_total ~ vore) %>% 
+  calculate(stat = "diff in means",
+            order = c("omni", "herbi"))
+observed_stat
+```
+
+```{r}
+null_distribution <- sub_msleep %>% 
+  specify(sleep_total ~ vore) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(reps = 10000, type = "permute") %>% 
+  calculate(stat = "diff in means", order = c("omni", "herbi")) 
+null_distribution
+```
+
+```{r}
+null_distribution %>% 
+  visualise(bins = 30) +
+  shade_pvalue(obs_stat = observed_stat,
+               direction = "greater")
+```
+
+```{r}
+p_value <- null_distribution %>% 
+  get_pvalue(obs_stat = observed_stat,
+             direction = "greater")
+p_value
+```
+
+The p_value is much greater than our level of significance of 0.05, so the null 
+hypothesis cannot be rejected. 
+
+This means there is not enough evidence to say that on average omnivores sleep 
+for significantly longer than herbivores.
+
+### Question 4
+
+Hypotheses:
+
+H0: π_is_domesticated = 5%
+Ha: π_is_domesticated > 5%
+
+α = 0.05
+
+```{r}
+msleep_domesticated <- msleep %>% 
+  mutate(is_domesticated = (conservation == "domesticated"),
+# Replaced missing values with FALSE, because none were domesticated animals
+         is_domesticated = coalesce(is_domesticated, FALSE))
+```
+
+```{r}
+observed_stat <- msleep_domesticated %>% 
+  specify(response = is_domesticated, success = "TRUE") %>% 
+  calculate(stat = "prop")
+observed_stat
+```
+
+```{r}
+null_distribution <- msleep_domesticated %>% 
+  specify(response = is_domesticated, success = "TRUE") %>% 
+  hypothesise(null = "point", p = 0.05) %>% 
+  generate(reps = 10000, type = "draw") %>% 
+  calculate(stat = "prop")
+```
+
+```{r}
+null_distribution %>% 
+  visualise(bins = 10) +
+  shade_pvalue(obs_stat = observed_stat,
+               direction = "greater")
+```
+
+```{r}
+p_value <- null_distribution %>% 
+  get_pvalue(obs_stat = observed_stat,
+             direction = "greater")
+p_value
+```
+
+The p_value is smaller than the significance level, which means the null 
+hypothesis can be rejected. 
+
+The proportion of domesticated animal types in the population of animal types is
+greater than 5%.
+
+## 1.2 Hypothesis Testing - Defining the Hypothesis
+
+### Question 1
+

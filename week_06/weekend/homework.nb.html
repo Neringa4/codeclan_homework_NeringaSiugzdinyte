@@ -216,8 +216,208 @@ pre code {
 
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGphbml0b3IpXG5saWJyYXJ5KGluZmVyKVxuZGF0YShtc2xlZXApXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)
+library(janitor)
+library(infer)
+data(msleep)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="mvp" class="section level1">
+<h1>MVP</h1>
+<div id="hypothesis-testing---practical" class="section level2">
+<h2>1.1 Hypothesis Testing - Practical</h2>
+<div id="question-1" class="section level3">
+<h3>Question 1</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2xpbXBzZShtc2xlZXApXG5gYGAifQ== -->
+<pre class="r"><code>glimpse(msleep)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="question-2" class="section level3">
+<h3>Question 2</h3>
+<p>Hypotheses:</p>
+<p>H0: µ_sleep_total = 7 Ha: µ_sleep_total =/= 7</p>
+<p>α = 0.05</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub2JzZXJ2ZWRfc3RhdCA8LSBtc2xlZXAgJT4lIFxuICBzcGVjaWZ5KHJlc3BvbnNlID0gc2xlZXBfdG90YWwpICU+JSBcbiAgY2FsY3VsYXRlKHN0YXQgPSBcIm1lYW5cIilcbm9ic2VydmVkX3N0YXRcbmBgYCJ9 -->
+<pre class="r"><code>observed_stat &lt;- msleep %&gt;% 
+  specify(response = sleep_total) %&gt;% 
+  calculate(stat = &quot;mean&quot;)
+observed_stat</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubnVsbF9kaXN0cmlidXRpb24gPC0gbXNsZWVwICU+JSBcbiAgc3BlY2lmeShyZXNwb25zZSA9IHNsZWVwX3RvdGFsKSAlPiUgXG4gIGh5cG90aGVzaXNlKG51bGwgPSBcInBvaW50XCIsIG11ID0gNykgJT4lIFxuICBnZW5lcmF0ZShyZXBzID0gMTAwMDAsIHR5cGUgPSBcImJvb3RzdHJhcFwiKSAlPiUgXG4gIGNhbGN1bGF0ZShzdGF0ID0gXCJtZWFuXCIpXG5udWxsX2Rpc3RyaWJ1dGlvblxuYGBgIn0= -->
+<pre class="r"><code>null_distribution &lt;- msleep %&gt;% 
+  specify(response = sleep_total) %&gt;% 
+  hypothesise(null = &quot;point&quot;, mu = 7) %&gt;% 
+  generate(reps = 10000, type = &quot;bootstrap&quot;) %&gt;% 
+  calculate(stat = &quot;mean&quot;)
+null_distribution</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubnVsbF9kaXN0cmlidXRpb24gJT4lIFxuICB2aXN1YWxpc2UoYmlucyA9IDMwKSArXG4gIHNoYWRlX3B2YWx1ZShvYnNfc3RhdCA9IG9ic2VydmVkX3N0YXQsXG4gICAgICAgICAgICAgICBkaXJlY3Rpb24gPSBcImJvdGhcIilcbmBgYCJ9 -->
+<pre class="r"><code>null_distribution %&gt;% 
+  visualise(bins = 30) +
+  shade_pvalue(obs_stat = observed_stat,
+               direction = &quot;both&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucF92YWx1ZSA8LSBudWxsX2Rpc3RyaWJ1dGlvbiAlPiUgXG4gIGdldF9wdmFsdWUob2JzX3N0YXQgPSBvYnNlcnZlZF9zdGF0LFxuICAgICAgICAgICAgIGRpcmVjdGlvbiA9IFwiYm90aFwiKVxucF92YWx1ZVxuYGBgIn0= -->
+<pre class="r"><code>p_value &lt;- null_distribution %&gt;% 
+  get_pvalue(obs_stat = observed_stat,
+             direction = &quot;both&quot;)
+p_value</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The p_value is well below the significance level of 0.05, so the null hypothesis is successfully rejected.</p>
+<p>This means there is enough evidence to say that the sleep_total of animals differs from the 7 hours of “jabberwockies”.</p>
+</div>
+<div id="question-3" class="section level3">
+<h3>Question 3</h3>
+<p>Hypotheses:</p>
+<p>H0: µ_omnivore_sleep_total - µ_herbivore_sleep_total = 0 Ha: µ_omnivore_sleep_total - µ_herbivore_sleep_total &gt; 0</p>
+<p>α = 0.05</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3ViX21zbGVlcCA8LSBtc2xlZXAgJT4lIFxuICBmaWx0ZXIodm9yZSAlaW4lIGMoXCJvbW5pXCIsIFwiaGVyYmlcIikpXG5gYGAifQ== -->
+<pre class="r"><code>sub_msleep &lt;- msleep %&gt;% 
+  filter(vore %in% c(&quot;omni&quot;, &quot;herbi&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub2JzZXJ2ZWRfc3RhdCA8LSBzdWJfbXNsZWVwICU+JSBcbiAgc3BlY2lmeShzbGVlcF90b3RhbCB+IHZvcmUpICU+JSBcbiAgY2FsY3VsYXRlKHN0YXQgPSBcImRpZmYgaW4gbWVhbnNcIixcbiAgICAgICAgICAgIG9yZGVyID0gYyhcIm9tbmlcIiwgXCJoZXJiaVwiKSlcbm9ic2VydmVkX3N0YXRcbmBgYCJ9 -->
+<pre class="r"><code>observed_stat &lt;- sub_msleep %&gt;% 
+  specify(sleep_total ~ vore) %&gt;% 
+  calculate(stat = &quot;diff in means&quot;,
+            order = c(&quot;omni&quot;, &quot;herbi&quot;))
+observed_stat</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubnVsbF9kaXN0cmlidXRpb24gPC0gc3ViX21zbGVlcCAlPiUgXG4gIHNwZWNpZnkoc2xlZXBfdG90YWwgfiB2b3JlKSAlPiUgXG4gIGh5cG90aGVzaXplKG51bGwgPSBcImluZGVwZW5kZW5jZVwiKSAlPiUgXG4gIGdlbmVyYXRlKHJlcHMgPSAxMDAwMCwgdHlwZSA9IFwicGVybXV0ZVwiKSAlPiUgXG4gIGNhbGN1bGF0ZShzdGF0ID0gXCJkaWZmIGluIG1lYW5zXCIsIG9yZGVyID0gYyhcIm9tbmlcIiwgXCJoZXJiaVwiKSkgXG5udWxsX2Rpc3RyaWJ1dGlvblxuYGBgIn0= -->
+<pre class="r"><code>null_distribution &lt;- sub_msleep %&gt;% 
+  specify(sleep_total ~ vore) %&gt;% 
+  hypothesize(null = &quot;independence&quot;) %&gt;% 
+  generate(reps = 10000, type = &quot;permute&quot;) %&gt;% 
+  calculate(stat = &quot;diff in means&quot;, order = c(&quot;omni&quot;, &quot;herbi&quot;)) 
+null_distribution</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubnVsbF9kaXN0cmlidXRpb24gJT4lIFxuICB2aXN1YWxpc2UoYmlucyA9IDMwKSArXG4gIHNoYWRlX3B2YWx1ZShvYnNfc3RhdCA9IG9ic2VydmVkX3N0YXQsXG4gICAgICAgICAgICAgICBkaXJlY3Rpb24gPSBcImdyZWF0ZXJcIilcbmBgYCJ9 -->
+<pre class="r"><code>null_distribution %&gt;% 
+  visualise(bins = 30) +
+  shade_pvalue(obs_stat = observed_stat,
+               direction = &quot;greater&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucF92YWx1ZSA8LSBudWxsX2Rpc3RyaWJ1dGlvbiAlPiUgXG4gIGdldF9wdmFsdWUob2JzX3N0YXQgPSBvYnNlcnZlZF9zdGF0LFxuICAgICAgICAgICAgIGRpcmVjdGlvbiA9IFwiZ3JlYXRlclwiKVxucF92YWx1ZVxuYGBgIn0= -->
+<pre class="r"><code>p_value &lt;- null_distribution %&gt;% 
+  get_pvalue(obs_stat = observed_stat,
+             direction = &quot;greater&quot;)
+p_value</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The p_value is much greater than our level of significance of 0.05, so the null hypothesis cannot be rejected.</p>
+<p>This means there is not enough evidence to say that on average omnivores sleep for significantly longer than herbivores.</p>
+</div>
+<div id="question-4" class="section level3">
+<h3>Question 4</h3>
+<p>Hypotheses:</p>
+<p>H0: π_is_domesticated = 5% Ha: π_is_domesticated &gt; 5%</p>
+<p>α = 0.05</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXNsZWVwX2RvbWVzdGljYXRlZCA8LSBtc2xlZXAgJT4lIFxuICBtdXRhdGUoaXNfZG9tZXN0aWNhdGVkID0gKGNvbnNlcnZhdGlvbiA9PSBcImRvbWVzdGljYXRlZFwiKSxcbiMgUmVwbGFjZWQgbWlzc2luZyB2YWx1ZXMgd2l0aCBGQUxTRSwgYmVjYXVzZSBub25lIHdlcmUgZG9tZXN0aWNhdGVkIGFuaW1hbHNcbiAgICAgICAgIGlzX2RvbWVzdGljYXRlZCA9IGNvYWxlc2NlKGlzX2RvbWVzdGljYXRlZCwgRkFMU0UpKVxuYGBgIn0= -->
+<pre class="r"><code>msleep_domesticated &lt;- msleep %&gt;% 
+  mutate(is_domesticated = (conservation == &quot;domesticated&quot;),
+# Replaced missing values with FALSE, because none were domesticated animals
+         is_domesticated = coalesce(is_domesticated, FALSE))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub2JzZXJ2ZWRfc3RhdCA8LSBtc2xlZXBfZG9tZXN0aWNhdGVkICU+JSBcbiAgc3BlY2lmeShyZXNwb25zZSA9IGlzX2RvbWVzdGljYXRlZCwgc3VjY2VzcyA9IFwiVFJVRVwiKSAlPiUgXG4gIGNhbGN1bGF0ZShzdGF0ID0gXCJwcm9wXCIpXG5vYnNlcnZlZF9zdGF0XG5gYGAifQ== -->
+<pre class="r"><code>observed_stat &lt;- msleep_domesticated %&gt;% 
+  specify(response = is_domesticated, success = &quot;TRUE&quot;) %&gt;% 
+  calculate(stat = &quot;prop&quot;)
+observed_stat</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubnVsbF9kaXN0cmlidXRpb24gPC0gbXNsZWVwX2RvbWVzdGljYXRlZCAlPiUgXG4gIHNwZWNpZnkocmVzcG9uc2UgPSBpc19kb21lc3RpY2F0ZWQsIHN1Y2Nlc3MgPSBcIlRSVUVcIikgJT4lIFxuICBoeXBvdGhlc2lzZShudWxsID0gXCJwb2ludFwiLCBwID0gMC4wNSkgJT4lIFxuICBnZW5lcmF0ZShyZXBzID0gMTAwMDAsIHR5cGUgPSBcImRyYXdcIikgJT4lIFxuICBjYWxjdWxhdGUoc3RhdCA9IFwicHJvcFwiKVxuYGBgIn0= -->
+<pre class="r"><code>null_distribution &lt;- msleep_domesticated %&gt;% 
+  specify(response = is_domesticated, success = &quot;TRUE&quot;) %&gt;% 
+  hypothesise(null = &quot;point&quot;, p = 0.05) %&gt;% 
+  generate(reps = 10000, type = &quot;draw&quot;) %&gt;% 
+  calculate(stat = &quot;prop&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubnVsbF9kaXN0cmlidXRpb24gJT4lIFxuICB2aXN1YWxpc2UoYmlucyA9IDEwKSArXG4gIHNoYWRlX3B2YWx1ZShvYnNfc3RhdCA9IG9ic2VydmVkX3N0YXQsXG4gICAgICAgICAgICAgICBkaXJlY3Rpb24gPSBcImdyZWF0ZXJcIilcbmBgYCJ9 -->
+<pre class="r"><code>null_distribution %&gt;% 
+  visualise(bins = 10) +
+  shade_pvalue(obs_stat = observed_stat,
+               direction = &quot;greater&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucF92YWx1ZSA8LSBudWxsX2Rpc3RyaWJ1dGlvbiAlPiUgXG4gIGdldF9wdmFsdWUob2JzX3N0YXQgPSBvYnNlcnZlZF9zdGF0LFxuICAgICAgICAgICAgIGRpcmVjdGlvbiA9IFwiZ3JlYXRlclwiKVxucF92YWx1ZVxuYGBgIn0= -->
+<pre class="r"><code>p_value &lt;- null_distribution %&gt;% 
+  get_pvalue(obs_stat = observed_stat,
+             direction = &quot;greater&quot;)
+p_value</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The p_value is smaller than the significance level, which means the null hypothesis can be rejected.</p>
+<p>The proportion of domesticated animal types in the population of animal types is greater than 5%.</p>
+</div>
+</div>
+<div id="hypothesis-testing---defining-the-hypothesis" class="section level2">
+<h2>1.2 Hypothesis Testing - Defining the Hypothesis</h2>
+<div id="question-1-1" class="section level3">
+<h3>Question 1</h3>
+<!-- rnb-text-end -->
+</div>
+</div>
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShqYW5pdG9yKQ0KbGlicmFyeShpbmZlcikNCmRhdGEobXNsZWVwKQ0KYGBgDQoNCiMgTVZQDQoNCiMjIDEuMSBIeXBvdGhlc2lzIFRlc3RpbmcgLSBQcmFjdGljYWwNCg0KIyMjIFF1ZXN0aW9uIDENCg0KYGBge3J9DQpnbGltcHNlKG1zbGVlcCkNCmBgYA0KIA0KIyMjIFF1ZXN0aW9uIDINCg0KSHlwb3RoZXNlczoNCg0KSDA6IMK1X3NsZWVwX3RvdGFsID0gNw0KSGE6IMK1X3NsZWVwX3RvdGFsID0vPSA3DQoNCs6xID0gMC4wNQ0KDQpgYGB7cn0NCm9ic2VydmVkX3N0YXQgPC0gbXNsZWVwICU+JSANCiAgc3BlY2lmeShyZXNwb25zZSA9IHNsZWVwX3RvdGFsKSAlPiUgDQogIGNhbGN1bGF0ZShzdGF0ID0gIm1lYW4iKQ0Kb2JzZXJ2ZWRfc3RhdA0KYGBgDQoNCmBgYHtyfQ0KbnVsbF9kaXN0cmlidXRpb24gPC0gbXNsZWVwICU+JSANCiAgc3BlY2lmeShyZXNwb25zZSA9IHNsZWVwX3RvdGFsKSAlPiUgDQogIGh5cG90aGVzaXNlKG51bGwgPSAicG9pbnQiLCBtdSA9IDcpICU+JSANCiAgZ2VuZXJhdGUocmVwcyA9IDEwMDAwLCB0eXBlID0gImJvb3RzdHJhcCIpICU+JSANCiAgY2FsY3VsYXRlKHN0YXQgPSAibWVhbiIpDQpudWxsX2Rpc3RyaWJ1dGlvbg0KYGBgDQoNCmBgYHtyfQ0KbnVsbF9kaXN0cmlidXRpb24gJT4lIA0KICB2aXN1YWxpc2UoYmlucyA9IDMwKSArDQogIHNoYWRlX3B2YWx1ZShvYnNfc3RhdCA9IG9ic2VydmVkX3N0YXQsDQogICAgICAgICAgICAgICBkaXJlY3Rpb24gPSAiYm90aCIpDQpgYGANCg0KYGBge3J9DQpwX3ZhbHVlIDwtIG51bGxfZGlzdHJpYnV0aW9uICU+JSANCiAgZ2V0X3B2YWx1ZShvYnNfc3RhdCA9IG9ic2VydmVkX3N0YXQsDQogICAgICAgICAgICAgZGlyZWN0aW9uID0gImJvdGgiKQ0KcF92YWx1ZQ0KYGBgDQoNClRoZSBwX3ZhbHVlIGlzIHdlbGwgYmVsb3cgdGhlIHNpZ25pZmljYW5jZSBsZXZlbCBvZiAwLjA1LCBzbyB0aGUgbnVsbCBoeXBvdGhlc2lzDQppcyBzdWNjZXNzZnVsbHkgcmVqZWN0ZWQuDQoNClRoaXMgbWVhbnMgdGhlcmUgaXMgZW5vdWdoIGV2aWRlbmNlIHRvIHNheSB0aGF0IHRoZSBzbGVlcF90b3RhbCBvZiBhbmltYWxzIA0KZGlmZmVycyBmcm9tIHRoZSA3IGhvdXJzIG9mICJqYWJiZXJ3b2NraWVzIi4NCg0KIyMjIFF1ZXN0aW9uIDMNCg0KSHlwb3RoZXNlczoNCg0KSDA6IMK1X29tbml2b3JlX3NsZWVwX3RvdGFsIC0gwrVfaGVyYml2b3JlX3NsZWVwX3RvdGFsID0gMA0KSGE6IMK1X29tbml2b3JlX3NsZWVwX3RvdGFsIC0gwrVfaGVyYml2b3JlX3NsZWVwX3RvdGFsID4gMA0KDQrOsSA9IDAuMDUNCg0KYGBge3J9DQpzdWJfbXNsZWVwIDwtIG1zbGVlcCAlPiUgDQogIGZpbHRlcih2b3JlICVpbiUgYygib21uaSIsICJoZXJiaSIpKQ0KYGBgDQoNCmBgYHtyfQ0Kb2JzZXJ2ZWRfc3RhdCA8LSBzdWJfbXNsZWVwICU+JSANCiAgc3BlY2lmeShzbGVlcF90b3RhbCB+IHZvcmUpICU+JSANCiAgY2FsY3VsYXRlKHN0YXQgPSAiZGlmZiBpbiBtZWFucyIsDQogICAgICAgICAgICBvcmRlciA9IGMoIm9tbmkiLCAiaGVyYmkiKSkNCm9ic2VydmVkX3N0YXQNCmBgYA0KDQpgYGB7cn0NCm51bGxfZGlzdHJpYnV0aW9uIDwtIHN1Yl9tc2xlZXAgJT4lIA0KICBzcGVjaWZ5KHNsZWVwX3RvdGFsIH4gdm9yZSkgJT4lIA0KICBoeXBvdGhlc2l6ZShudWxsID0gImluZGVwZW5kZW5jZSIpICU+JSANCiAgZ2VuZXJhdGUocmVwcyA9IDEwMDAwLCB0eXBlID0gInBlcm11dGUiKSAlPiUgDQogIGNhbGN1bGF0ZShzdGF0ID0gImRpZmYgaW4gbWVhbnMiLCBvcmRlciA9IGMoIm9tbmkiLCAiaGVyYmkiKSkgDQpudWxsX2Rpc3RyaWJ1dGlvbg0KYGBgDQoNCmBgYHtyfQ0KbnVsbF9kaXN0cmlidXRpb24gJT4lIA0KICB2aXN1YWxpc2UoYmlucyA9IDMwKSArDQogIHNoYWRlX3B2YWx1ZShvYnNfc3RhdCA9IG9ic2VydmVkX3N0YXQsDQogICAgICAgICAgICAgICBkaXJlY3Rpb24gPSAiZ3JlYXRlciIpDQpgYGANCg0KYGBge3J9DQpwX3ZhbHVlIDwtIG51bGxfZGlzdHJpYnV0aW9uICU+JSANCiAgZ2V0X3B2YWx1ZShvYnNfc3RhdCA9IG9ic2VydmVkX3N0YXQsDQogICAgICAgICAgICAgZGlyZWN0aW9uID0gImdyZWF0ZXIiKQ0KcF92YWx1ZQ0KYGBgDQoNClRoZSBwX3ZhbHVlIGlzIG11Y2ggZ3JlYXRlciB0aGFuIG91ciBsZXZlbCBvZiBzaWduaWZpY2FuY2Ugb2YgMC4wNSwgc28gdGhlIG51bGwgDQpoeXBvdGhlc2lzIGNhbm5vdCBiZSByZWplY3RlZC4gDQoNClRoaXMgbWVhbnMgdGhlcmUgaXMgbm90IGVub3VnaCBldmlkZW5jZSB0byBzYXkgdGhhdCBvbiBhdmVyYWdlIG9tbml2b3JlcyBzbGVlcCANCmZvciBzaWduaWZpY2FudGx5IGxvbmdlciB0aGFuIGhlcmJpdm9yZXMuDQoNCiMjIyBRdWVzdGlvbiA0DQoNCkh5cG90aGVzZXM6DQoNCkgwOiDPgF9pc19kb21lc3RpY2F0ZWQgPSA1JQ0KSGE6IM+AX2lzX2RvbWVzdGljYXRlZCA+IDUlDQoNCs6xID0gMC4wNQ0KDQpgYGB7cn0NCm1zbGVlcF9kb21lc3RpY2F0ZWQgPC0gbXNsZWVwICU+JSANCiAgbXV0YXRlKGlzX2RvbWVzdGljYXRlZCA9IChjb25zZXJ2YXRpb24gPT0gImRvbWVzdGljYXRlZCIpLA0KIyBSZXBsYWNlZCBtaXNzaW5nIHZhbHVlcyB3aXRoIEZBTFNFLCBiZWNhdXNlIG5vbmUgd2VyZSBkb21lc3RpY2F0ZWQgYW5pbWFscw0KICAgICAgICAgaXNfZG9tZXN0aWNhdGVkID0gY29hbGVzY2UoaXNfZG9tZXN0aWNhdGVkLCBGQUxTRSkpDQpgYGANCg0KYGBge3J9DQpvYnNlcnZlZF9zdGF0IDwtIG1zbGVlcF9kb21lc3RpY2F0ZWQgJT4lIA0KICBzcGVjaWZ5KHJlc3BvbnNlID0gaXNfZG9tZXN0aWNhdGVkLCBzdWNjZXNzID0gIlRSVUUiKSAlPiUgDQogIGNhbGN1bGF0ZShzdGF0ID0gInByb3AiKQ0Kb2JzZXJ2ZWRfc3RhdA0KYGBgDQoNCmBgYHtyfQ0KbnVsbF9kaXN0cmlidXRpb24gPC0gbXNsZWVwX2RvbWVzdGljYXRlZCAlPiUgDQogIHNwZWNpZnkocmVzcG9uc2UgPSBpc19kb21lc3RpY2F0ZWQsIHN1Y2Nlc3MgPSAiVFJVRSIpICU+JSANCiAgaHlwb3RoZXNpc2UobnVsbCA9ICJwb2ludCIsIHAgPSAwLjA1KSAlPiUgDQogIGdlbmVyYXRlKHJlcHMgPSAxMDAwMCwgdHlwZSA9ICJkcmF3IikgJT4lIA0KICBjYWxjdWxhdGUoc3RhdCA9ICJwcm9wIikNCmBgYA0KDQpgYGB7cn0NCm51bGxfZGlzdHJpYnV0aW9uICU+JSANCiAgdmlzdWFsaXNlKGJpbnMgPSAxMCkgKw0KICBzaGFkZV9wdmFsdWUob2JzX3N0YXQgPSBvYnNlcnZlZF9zdGF0LA0KICAgICAgICAgICAgICAgZGlyZWN0aW9uID0gImdyZWF0ZXIiKQ0KYGBgDQoNCmBgYHtyfQ0KcF92YWx1ZSA8LSBudWxsX2Rpc3RyaWJ1dGlvbiAlPiUgDQogIGdldF9wdmFsdWUob2JzX3N0YXQgPSBvYnNlcnZlZF9zdGF0LA0KICAgICAgICAgICAgIGRpcmVjdGlvbiA9ICJncmVhdGVyIikNCnBfdmFsdWUNCmBgYA0KDQpUaGUgcF92YWx1ZSBpcyBzbWFsbGVyIHRoYW4gdGhlIHNpZ25pZmljYW5jZSBsZXZlbCwgd2hpY2ggbWVhbnMgdGhlIG51bGwgDQpoeXBvdGhlc2lzIGNhbiBiZSByZWplY3RlZC4gDQoNClRoZSBwcm9wb3J0aW9uIG9mIGRvbWVzdGljYXRlZCBhbmltYWwgdHlwZXMgaW4gdGhlIHBvcHVsYXRpb24gb2YgYW5pbWFsIHR5cGVzIGlzDQpncmVhdGVyIHRoYW4gNSUuDQoNCiMjIDEuMiBIeXBvdGhlc2lzIFRlc3RpbmcgLSBEZWZpbmluZyB0aGUgSHlwb3RoZXNpcw0KDQojIyMgUXVlc3Rpb24gMQ0KDQo=</div>
 
 
 
