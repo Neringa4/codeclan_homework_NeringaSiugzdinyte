@@ -1,0 +1,59 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(ggfortify)
+```
+
+# MVP
+
+```{r}
+project <- read_csv("data/project_management.csv")
+```
+
+```{r}
+project %>% 
+  ggplot(aes(x = estimated_length, y = actual_length)) +
+  geom_point()
+```
+
+```{r}
+project %>% 
+  summarise(cor(estimated_length, actual_length))
+```
+
+A correlation coefficient of 0.8 means that the variables are very strongly
+positively correlated.
+
+```{r}
+model <- lm(actual_length ~ estimated_length,
+            data = project)
+summary(model)
+```
+
+The `estimated_length` regression coefficient is 1.2235. This means that for 
+every day the `estimated_length` increases, the `actual_length` increases by 
+1.2235 days. 
+
+The r-squared is 0.65. This means that 65% of the variation in the 
+`actual_length` can be explained by variation in `estimated_length`.
+
+```{r}
+autoplot(model)
+```
+
+The diagnostic plots seem to satisfy the 3 required residual conditions:
+
+There is no distinguishable pattern in Residuals vs Fitted plot, which means 
+the residuals are independent of each other.
+
+The residuals seem to be normally distributed apart from one large outlier. 
+
+The line in the Scale-Location plot is fairly constant, which means there is 
+no systematic variation in residual size. 
+
+Having satisfied these conditions, and a p-value < 0.001, we can conclude that 
+the relationship is statistically significant.
