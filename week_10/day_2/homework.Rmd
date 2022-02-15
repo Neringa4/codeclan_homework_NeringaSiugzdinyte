@@ -1,0 +1,136 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(GGally)
+library(ggfortify)
+library(mosaic)
+```
+
+# MVP
+
+## 1.
+
+```{r}
+diamonds <- read_csv("data/diamonds.csv") %>% 
+  janitor::clean_names()
+glimpse(diamonds)
+```
+
+## 2. 
+
+```{r}
+diamonds %>% 
+  select(carat, x, y, z) %>% 
+  ggpairs()
+```
+
+## 3.
+
+```{r}
+diamonds <- diamonds %>% 
+  select(-x, -y, -z)
+```
+
+## 4. 
+
+### i.
+
+```{r}
+diamonds %>% 
+  select(-x1) %>% 
+  ggpairs()
+```
+
+### ii.
+
+```{r}
+diamonds %>% 
+  ggplot(aes(x = carat, y = price)) +
+  geom_point()
+```
+
+```{r}
+diamonds %>% 
+  ggplot(aes(x = color, y = price)) +
+  geom_boxplot()
+```
+
+## 5.
+
+```{r}
+
+```
+
+```{r}
+diamonds %>% 
+  summarise(across(.cols = c(cut, clarity, color),
+                   .fns = ~n_distinct(.x)))
+```
+
+There will be 4 dummy variables for cut, 7 for clarity and 6 for colour.
+
+## 6. 
+
+```{r}
+model <- lm(price ~ carat, data = diamonds)
+```
+
+```{r}
+autoplot(model)
+summary(model)
+```
+
+```{r}
+plotModel(model)
+```
+
+## 7. 
+
+```{r}
+model_2 <- lm(price ~ carat + color, data = diamonds)
+```
+
+```{r}
+autoplot(model_2)
+summary(model_2)
+```
+
+Not sure about assumptions
+
+Diagnostics:
+The Scale-Location line is increasing?
+The distribution does not appear to be normal. It looks like it is heavy-tailed?
+
+```{r}
+plotModel(model_2) +
+  scale_y_continuous(limits = c(-1000, 20000))
+```
+
+Can I change colours here to make it more readable?
+
+# Extension
+
+```{r}
+model_3 <- lm(price ~ log(carat) * color,
+              data = diamonds)
+```
+
+```{r}
+autoplot(model_3)
+summary(model_3)
+```
+
+```{r}
+model_3 <- lm(price ~ carat + color + log(carat):color,
+              data = diamonds)
+```
+
+```{r}
+autoplot(model_3)
+summary(model_3)
+```
+
