@@ -3,3 +3,79 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+```{r}
+library(tidyverse)
+library(modelr)
+library(GGally)
+library(fastDummies)
+library(ggfortify)
+
+houses <- read_csv("data/kc_house_data.csv")
+```
+
+# MVP
+
+## Question 1
+
+```{r}
+houses %>% 
+  summarise(across(.cols = everything(), 
+                   .fns = ~sum(is.na(.x))))
+```
+
+```{r}
+houses_trim <- houses %>% 
+  mutate(waterfront = as.logical(waterfront),
+         renovated = if_else(yr_renovated != 0, TRUE, FALSE)) %>% 
+  select(- id, - date, - zipcode, -lat, -long, 
+         - sqft_living15, - sqft_lot15, -yr_renovated) %>% 
+  mutate(condition = as.character(condition),
+         grade = as.character(grade),
+         view = as.character(view))
+```
+
+```{r}
+unique(houses$grade)
+```
+
+## Question 2
+
+```{r}
+alias(price ~ ., houses_trim)
+```
+
+```{r}
+houses_trim <- houses_trim %>% 
+  select(-sqft_above)
+```
+
+```{r}
+alias(price ~ ., houses_trim)
+```
+
+## Question 3
+
+```{r}
+houses_tidy_numeric <- houses_trim %>%
+  select_if(is.numeric)
+
+houses_tidy_nonnumeric <- houses_trim %>%
+  select_if(function(x) !is.numeric(x))
+
+houses_tidy_nonnumeric$price <- houses_trim$price
+
+ggpairs(houses_tidy_numeric)
+ggpairs(houses_tidy_nonnumeric)
+```
+
+```{r}
+mod1a <- lm(price ~ sqft_living, houses_trim)
+autoplot(mod1a)
+summary(mod1a)
+```
+
+```{r}
+mod1b <- lm(price ~ grade, houses_trim)
+autoplot(mod1b)
+summary(mod1b)
+```
