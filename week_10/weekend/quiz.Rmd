@@ -1,0 +1,30 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+1. It is likely that you are over-fitting. 
+
+2. Use the model with a lower AIC score - so the second one. 
+
+3. Use the first one, because it has a higher adjusted r-squared.
+
+4. I don't think that this model is over-fitting. The RMSE values are really
+similar in both cases, which means the model does not favour the training data.
+
+5. First, you split the data into k number of "folds". You use the first fold as 
+the test set and the rest of the folds as the training data. Repeat this for 
+each fold. Then find the average error across all tests. 
+
+6. A validation set is a set of data that is kept separate from the training
+data and the test set. It is used as a final way to test the performance of the 
+model. It is useful when comparing different types of models.
+
+7. In backwards selection, you start with a model that has all the predictors. 
+Then, you find the predictor that has the lowest impact on the model - lowers
+r-squared the least once removed. After removing that predictor, repeat the 
+same steps. (Only works if there are more observations than predictors).
+
+8. Best subset selection looks at every combination of predictors and finds the 
+combination that has the best r-squared value. It does this for every size of 
+the model, i.e one predictor, two predictors etc.
