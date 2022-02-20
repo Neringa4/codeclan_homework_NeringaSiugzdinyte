@@ -7,6 +7,10 @@ output: html_notebook
 library(tidyverse)
 library(lubridate)
 library(GGally)
+library(ggfortify)
+library(leaps)
+library(glmulti)
+library(modelr)
 ```
 
 ```{r}
@@ -39,7 +43,165 @@ avocado_tidy <- avocado_season %>%
          season = as.factor(season))
 ```
 
+# EXHAUSTIVE
+
 ```{r}
-avocado_tidy %>% 
-  ggpairs()
+regsubsets <- regsubsets(average_price ~ ., 
+                                    data = avocado_tidy,
+                                    nvmax = 11, 
+                                    method = "exhaustive")
+sum_regsubsets <- summary(regsubsets)
 ```
+
+```{r}
+plot(regsubsets, scale = "adjr2")
+plot(regsubsets, scale = "bic")
+```
+
+```{r}
+plot(sum_regsubsets$rsq, type = "b")
+plot(sum_regsubsets$bic, type = "b")
+```
+
+```{r}
+sum_regsubsets$which[11,]
+```
+
+## CHECK TYPE
+
+```{r}
+test_m <- lm(average_price ~ total_volume + x4225 + small_bags + x_large_bags,
+             data = avocado_tidy)
+
+type_m <- lm(average_price ~ total_volume + x4225 + small_bags + x_large_bags +
+               type,
+             data = avocado_tidy)
+```
+
+```{r}
+anova(null_m, type_m)
+```
+
+-> Keep type
+
+## CHECK YEAR
+
+```{r}
+year_m <- lm(average_price ~ total_volume + x4225 + small_bags + x_large_bags +
+               type + year,
+             data = avocado_tidy)
+```
+
+```{r}
+anova(type_m, year_m)
+```
+
+-> Keep year
+
+## CHECK SEASON
+
+```{r}
+season_m <- lm(average_price ~ total_volume + x4225 + small_bags + x_large_bags 
+               + type + year + season,
+             data = avocado_tidy)
+```
+
+```{r}
+anova(year_m, season_m)
+```
+
+-> Keep season
+
+```{r}
+summary(season_m)
+autoplot(season_m)
+```
+
+# GLMULTI
+
+```{r}
+glmulti_fit <- glmulti(average_price ~.,
+                       data = avocado_tidy,
+                       level = 2,
+                       minsize = 0,
+                       max_size = -1,
+                       marginality = TRUE,
+                       method = "g",
+                       crit = bic,
+                       plotty = FALSE,
+                       report = TRUE,
+                       confsetsize = 10,
+                       fitfunction = lm)
+```
+
+```{r}
+mod_interact <- lm(average_price ~ type + year + season + total_volume + x4046 + 
+                     x4225 + x4770 + total_bags + small_bags + large_bags + 
+                     x_large_bags + year:type + season:type + season:year + 
+                     x4225:total_volume + x4225:x4046 + x4770:total_volume + 
+                     x4770:x4225 + large_bags:small_bags + x_large_bags:x4046 + 
+                     x_large_bags:large_bags + type:total_volume + type:x4046 + 
+                     type:x4225 + type:total_bags + type:small_bags + 
+                     type:large_bags + type:x_large_bags + year:x4225 + 
+                     year:small_bags + year:x_large_bags,
+                   data = avocado_tidy)
+summary(mod_interact)
+autoplot(mod_interact)
+```
+
+```{r}
+summary(season_m)$adj.r.squared
+summary(mod_interact)$adj.r.squared
+```
+
+```{r}
+BIC(season_m)
+BIC(mod_interact)
+```
+
+# TESTING
+
+```{r}
+n_data <- nrow(avocado_tidy)
+
+test_index <- sample(1:n_data, size = n_data*0.2)
+
+test <- slice(avocado_tidy, test_index)
+train <- slice(avocado_tidy, -test_index)
+```
+
+```{r}
+train_mod_e <- lm(average_price ~ total_volume + x4225 + small_bags + x_large_bags 
+               + type + year + season,
+             data = train)
+
+train_mod_i <- lm(average_price ~ type + year + season + total_volume + x4046 + 
+                     x4225 + x4770 + total_bags + small_bags + large_bags + 
+                     x_large_bags + year:type + season:type + season:year + 
+                     x4225:total_volume + x4225:x4046 + x4770:total_volume + 
+                     x4770:x4225 + large_bags:small_bags + x_large_bags:x4046 + 
+                     x_large_bags:large_bags + type:total_volume + type:x4046 + 
+                     type:x4225 + type:total_bags + type:small_bags + 
+                     type:large_bags + type:x_large_bags + year:x4225 + 
+                     year:small_bags + year:x_large_bags,
+                   data = train)
+```
+
+```{r}
+pred_test_e <- test %>% 
+  add_predictions(train_mod_e) %>% 
+  select(average_price, pred)
+
+pred_test_i <- test %>% 
+  add_predictions(train_mod_i) %>% 
+  select(average_price, pred)
+```
+
+```{r}
+mse_test_e <- mean((pred_test_e$pred - test$average_price)^2)
+mse_test_i <- mean((pred_test_i$pred - test$average_price)^2)
+
+mse_test_e
+mse_test_i
+```
+
