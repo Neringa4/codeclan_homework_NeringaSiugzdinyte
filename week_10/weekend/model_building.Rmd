@@ -1,0 +1,45 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(GGally)
+```
+
+```{r}
+avocado <- read_csv("data/avocado.csv") %>% 
+  janitor::clean_names()
+avocado_dict <- read_csv("data/data_dict.txt")
+```
+
+```{r}
+avocado %>% 
+  summarise(across(.cols = everything(), 
+                   .fns = ~sum(is.na(.x))))
+```
+
+```{r}
+avocado_season <- avocado %>% 
+  mutate(season = case_when(
+    month(date) %in% c(3:5) ~ "spring",
+    month(date) %in% c(6:8) ~ "summer",
+    month(date) %in% c(9:11) ~ "autumn",
+    TRUE ~ "winter"
+  ))
+```
+
+```{r}
+avocado_tidy <- avocado_season %>% 
+  select(-x1, -date, -region) %>% 
+  mutate(type = as.factor(type),
+         year = as.factor(year),
+         season = as.factor(season))
+```
+
+```{r}
+avocado_tidy %>% 
+  ggpairs()
+```
