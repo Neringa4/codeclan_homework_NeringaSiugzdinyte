@@ -1,0 +1,142 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(rpart)
+library(rpart.plot)
+library(tidyverse)
+library(modelr)
+library(caret)
+
+titanic_set <- read_csv('data/titanic_decision_tree_data.csv')
+
+shuffle_index <- sample(1:nrow(titanic_set))
+
+# shuffle the data so class order isn't in order - need this for training/testing split later on 
+titanic_set <- titanic_set[shuffle_index, ]
+```
+
+# MVP
+
+## Question 1
+
+```{r}
+titanic_set_tidy <- titanic_set %>% 
+  janitor::clean_names() %>% 
+  filter(!is.na(survived)) %>% 
+  mutate(sex = as.factor(sex),
+         age_status = as.factor(if_else(age <= 16, "child", "adult")),
+         class = factor(pclass, 
+                        levels = c(1, 2, 3), 
+                        labels = c("upper", "middle", "lower")),
+         port_embarkation = as.factor(embarked),
+         survived_flag = factor(survived,
+                                levels = c(0, 1),
+                                labels = c("no", "yes"))) %>% 
+  select(sex, age_status, class, port_embarkation, 
+         sib_sp, parch, survived_flag) %>% 
+  drop_na()
+```
+
+## Question 2
+
+```{r}
+GGally::ggpairs(titanic_set_tidy)
+```
+
+Seems like sex and class might be useful in predicting whether a passenger is
+going to die. 
+
+## Question 3
+
+I chose an 80/20 split, since there are not that many observations in the dataset.
+
+```{r eval=FALSE}
+n_data <- nrow(titanic_set_tidy)
+
+test_index <- sample(1:n_data, size = n_data * 0.2)
+
+titanic_test <- slice(titanic_set_tidy, test_index)
+titanic_train <- slice(titanic_set_tidy, -test_index)
+```
+
+```{r eval=FALSE}
+titanic_test %>%
+  janitor::tabyl(survived_flag)
+
+titanic_train %>% 
+  janitor::tabyl(survived_flag)
+```
+
+```{r}
+titanic_sample <- 
+  splitstackshape::stratified(titanic_set_tidy,
+                              group = "survived_flag",
+                              size = 0.2,
+                              bothSets = TRUE)
+```
+
+```{r}
+titanic_test <- titanic_sample$SAMP1
+titanic_train <- titanic_sample$SAMP2
+```
+
+```{r}
+titanic_test %>%
+  janitor::tabyl(survived_flag)
+
+titanic_train %>% 
+  janitor::tabyl(survived_flag)
+```
+
+# Question 4
+
+```{r}
+titanic_fit <- rpart(survived_flag ~ .,
+                     data = titanic_train,
+                     method = "class")
+```
+
+```{r}
+rpart.plot(titanic_fit,
+           yesno = 2,
+           fallen.leaves = TRUE)
+```
+
+# Question 5
+
+So, I don't know what I did wrong, but it's attaching 0.4 to the "no" category
+in the root node, even though it should be 0.6. Then, it appears that the rest 
+of the tree map is based on `survived_flag == "yes"` being the majority because 
+it is saying that females have a 75% chance of dying, which makes no sense. 
+
+So, ignoring these, the map is telling us that males have only 0.2 chance of 
+survival, while for females it's 0.77. Females that are not in the lower class
+have a 0.95 chance of surviving, while females in the lower class have a 0.47
+chance of surviving. Then, females in the lower class that have one or more 
+siblings or spouses have a 0.34 chance of surviving and ones that have none have
+a 0.60 chance of surviving.
+
+The important variables in this tree map are sex, class and sib_sp. 
+
+# Question 6
+
+```{r}
+titanic_test_pred <- titanic_test %>% 
+  add_predictions(titanic_fit, type = "class")
+```
+
+```{r}
+confusionMatrix(titanic_test_pred$pred,
+                titanic_test_pred$survived_flag)
+```
+
+This tells us that this decision tree correctly predicts 74 positives and 33
+negatives which places the model's accuracy at 75%.
+There are also 11 false positives and 25 false negatives.
+
+In terms of this dataset, the model correctly predicted the 74 people that 
+didn't survive, and 33 people that did. It also incorrectly predicted the 
+survival of 11 people and the death of 25.
