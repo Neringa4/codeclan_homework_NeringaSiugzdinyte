@@ -1,0 +1,99 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(factoextra)
+library(broom)
+```
+
+```{r}
+mall_customers <- read_csv("data/mall_customers.csv")
+```
+
+```{r}
+summary(customers_clean)
+```
+
+There are no NAs in the dataset.
+
+```{r}
+customers_clean <- mall_customers %>% 
+  janitor::clean_names() %>% 
+  rename(spending_score = spending_score_1_100) %>% 
+  select(-customer_id)
+```
+
+```{r}
+GGally::ggpairs(customers_clean)
+```
+
+There appear to be clusters in `annual_income_k` vs `spending_score` plot. 
+There appear to be clusters in `age` vs `spending_score` plot.
+
+--------------------------------------------------------------------------------
+
+```{r}
+customers_scaled <- customers_clean %>% 
+  select(-gender, -age) %>% 
+  mutate_all(scale)
+```
+
+```{r}
+max_k <- 20
+
+K_cluster_customers <- tibble(k = 1:max_k) %>% 
+  mutate(kclust = map(k, ~kmeans(customers_scaled, .x, nstart = 25)))
+```
+
+```{r}
+fviz_nbclust(customers_scaled,
+             kmeans,
+             method = "wss",
+             nstart = 25)
+
+fviz_nbclust(customers_scaled,
+             kmeans,
+             method = "silhouette",
+             nstart = 25)
+
+fviz_nbclust(customers_scaled,
+             kmeans, 
+             method = "gap_stat")
+```
+
+Choose k = 5 
+
+```{r}
+clusters_k5 <- kmeans(customers_scaled,
+                      centers = 5,
+                      nstart = 25)
+```
+
+```{r}
+augment(clusters_k5, customers_scaled) %>% 
+  ggplot(aes(x = annual_income_k, 
+             y = spending_score,
+             colour = .cluster)) +
+  geom_point()
+```
+
+Based on the optimal clusters plots, there was no clear optimal number of 
+clusters for this dataset. However, based on this visualisation, the clustering 
+seems to be a really good fit for this data.
+
+Cluster 1 - high income, low spenders
+Cluster 2 - low income, high spenders
+Cluster 3 - mid income, mid spenders
+Cluster 4 - high income, high spenders
+Cluster 5 - low income, low spenders
+
+```{r}
+tidy(clusters_k5) %>% 
+  select(cluster, size)
+```
+
+Important to note that cluster 3 (mid income, mid spenders) is by far the 
+largest cluster, with clusters 2 and 5 being quite small in comparison.
