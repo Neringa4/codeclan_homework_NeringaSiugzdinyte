@@ -1,0 +1,139 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(broom)
+library(glmulti)
+library(caret)
+```
+
+```{r}
+orange_juice <- read_csv("data/orange_juice.csv")
+dict <- read_csv("data/data_dict.txt")
+```
+
+```{r}
+any(is.na(oj_clean))
+```
+
+```{r}
+oj_clean <- orange_juice %>% 
+  clean_names() %>% 
+  mutate(purchase_mm = as.factor(if_else(purchase == "MM", "t", "f"))) %>% 
+  mutate(across(.cols = c(store_id, special_ch, special_mm, store7, store),
+                .fns = ~as.factor(.x))) %>% 
+  rename(week_of_purchase = weekof_purchase) %>% 
+  select(-purchase)
+```
+
+```{r}
+alias(purchase_mm ~ ., data = oj_clean)
+```
+
+```{r}
+oj <- oj_clean %>% 
+  select(-sale_price_mm, -sale_price_ch, -price_diff, -list_price_diff,
+         -store7, -store)
+alias(purchase_mm ~ ., data = oj)
+```
+
+```{r}
+mod_wop_num <- glm(purchase_mm ~ week_of_purchase,
+                      data = oj,
+                      family = binomial(link = "logit"))
+
+tidy(mod_wop_num)
+```
+
+```{r}
+oj_wop_cat <- oj %>% 
+  mutate(week_of_purchase = as.factor(week_of_purchase))
+
+mod_wop_cat <- glm(purchase_mm ~ week_of_purchase,
+                   data = oj_wop_cat,
+                   family = binomial(link = "logit"))
+
+tidy(mod_wop_cat) %>% 
+  summarise(sum(p.value < 0.05), sum(p.value > 0.05))
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+glmulti_all_mains <- glmulti(
+  purchase_mm ~ .,
+  data = oj,
+  level = 1,
+  method = "h",
+  crit = "bic",
+  confsetsize = 10,
+  plotty = F,
+  report = T,
+  fitfunction = "glm",
+  family = binomial(link = "logit"))
+
+summary(glmulti_all_mains)
+```
+
+Best:
+purchase_mm ~ price_ch + price_mm + disc_mm + loyal_ch + pct_disc_mm + pct_disc_ch
+
+```{r}
+glmulti_all_mains_1_pair <- glmulti(
+  purchase_mm ~ price_ch + price_mm + disc_mm + loyal_ch + pct_disc_mm + pct_disc_ch, 
+  data = oj,
+  level = 2,
+  method = "h",
+  crit = "bic",
+  confsetsize = 10,
+  marginality = TRUE,
+  minsize = 7,
+  maxsize = 7,
+  plotty = F,
+  report = T,
+  fitfunction = "glm",
+  family = binomial(link = "logit"))
+
+gmulti_all_mains_1_pair
+```
+
+Best:
+purchase_mm ~ 1 + price_ch + price_mm + disc_mm + loyal_ch + pct_disc_mm + pct_disc_ch + pct_disc_ch:loyal_ch
+
+```{r}
+train_control <- trainControl(method = "repeatedcv", 
+                              number = 5,
+                              repeats = 100,
+                              savePredictions = TRUE, 
+                              classProbs = TRUE, 
+                              summaryFunction = twoClassSummary)
+```
+
+```{r}
+glmulti_all_mains_train <- train(purchase_mm ~ price_ch + price_mm + disc_mm + 
+                                   loyal_ch + pct_disc_mm + pct_disc_ch,
+                                 data = oj,
+                                 trControl = train_control,
+                                 method = "glm",
+                                 family = binomial(link = 'logit'))
+glmulti_all_mains_train$result
+```
+
+```{r}
+glmulti_1_pair_train <- train(purchase_mm ~ price_ch + price_mm + disc_mm + 
+                                loyal_ch + pct_disc_mm + pct_disc_ch + 
+                                pct_disc_ch:loyal_ch,
+                              data = oj,
+                              trControl = train_control,
+                              method = "glm",
+                              family = binomial(link = 'logit'))
+
+glmulti_1_pair_train$result
+```
+
+Best:
+purchase_mm ~ price_ch + price_mm + disc_mm + loyal_ch + pct_disc_mm + pct_disc_ch
